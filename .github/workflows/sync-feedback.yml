@@ -1,0 +1,25 @@
+name: Sync customer feedback
+
+on:
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sync read-only feedback sources
+        env:
+          FEEDBACK_SYNC_URL: ${{ secrets.FEEDBACK_SYNC_URL }}
+          FEEDBACK_SYNC_TOKEN: ${{ secrets.FEEDBACK_SYNC_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "$FEEDBACK_SYNC_URL" ] || [ -z "$FEEDBACK_SYNC_TOKEN" ]; then
+            echo "Set FEEDBACK_SYNC_URL and FEEDBACK_SYNC_TOKEN in repository Actions secrets."
+            exit 1
+          fi
+          curl --fail-with-body --silent --show-error \
+            --request POST \
+            --header "X-Sync-Token: ${FEEDBACK_SYNC_TOKEN}" \
+            "${FEEDBACK_SYNC_URL%/}/api/connectors/sync/cron"

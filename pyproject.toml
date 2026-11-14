@@ -1,0 +1,4 @@
+[tool.vercel]
+# Export the real FastAPI app directly. This avoids the legacy catch-all
+# rewrite through /api/index, which changes the path seen by FastAPI.
+entrypoint = "backend.app.main:app"

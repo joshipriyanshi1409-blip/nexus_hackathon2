@@ -1,0 +1,5 @@
+-r backend/requirements.txt
+pytest>=8,<10
+httpx>=0.27,<1
+# Only for the live browser test (tests/test_browser_e2e.py); run `playwright install chromium` afterwards.
+playwright>=1.40,<2

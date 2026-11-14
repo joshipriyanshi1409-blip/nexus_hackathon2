@@ -1,0 +1,972 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ECHO – Brand Governance Platform</title>
+<style>
+body{margin:0;font-family:system-ui,-apple-system,sans-serif;color:#1C1C1A;background:#F7F4EE}
+h1,h2,h3{font-family:Georgia,serif;font-weight:500;margin:0}
+.b{display:inline-block;padding:12px 24px;border-radius:10px;background:#1F3D36;color:#fff;border:0;font-size:16px;min-height:44px;cursor:pointer;font-family:inherit;text-decoration:none;box-sizing:border-box;text-align:center}
+.b:hover{background:#152B26}
+.s{padding:10px 18px;border-radius:10px;border:1px solid #1F3D36;background:#fff;color:#1F3D36;font-size:15px;min-height:44px;cursor:pointer;font-family:inherit;text-decoration:none;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center}
+.s:hover{background:#F0ECE1}
+.c{background:#fff;border:1px solid #E4DFD3;border-radius:16px;padding:24px}
+.m{color:#6B6A63;margin:0}
+.r{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid #E4DFD3;flex-wrap:wrap}
+.t{padding:5px 12px;border-radius:99px;font-size:14px;display:inline-block;font-weight:500}
+.g{background:#E3EFE8;color:#1F5A41}.a{background:#F6EBD3;color:#7A5200}.x{background:#F3DEDE;color:#8A2F2F}
+.i{width:100%;box-sizing:border-box;padding:12px;margin-top:6px;border:1px solid #CFC8B8;border-radius:10px;font-size:16px;background:#fff;font-family:inherit}
+textarea.i{min-height:140px}
+.w{display:flex;flex-direction:column;gap:22px;max-width:980px;margin:0 auto;padding:36px 24px}
+.n{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#B08A4A;color:#1C1C1A;font-weight:600;flex:none}
+.k{display:flex;align-items:center;gap:12px;padding:8px 0;cursor:pointer}
+.k input{width:22px;height:22px;accent-color:#1F3D36}
+.h{display:flex;gap:24px;flex-wrap:wrap}.h>*{flex:1;min-width:290px}
+.top{display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding:12px 28px;border-bottom:1px solid #E4DFD3;background:#fff}
+.top a{padding:9px 13px;border-radius:8px;color:#1F3D36;text-decoration:none;font-weight:500}.top a.cur{background:#E3EFE8}
+.sp{flex:1}.toast{background:#E3EFE8;color:#1F5A41;padding:12px 16px;border-radius:10px;font-weight:500}
+.err{color:#8A2F2F;min-height:20px;margin:0}
+.f{display:flex;gap:16px;align-items:flex-start;text-decoration:none;color:inherit}
+.bar{height:10px;border-radius:5px;background:#E4DFD3}.bar i{display:block;height:10px;border-radius:5px}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #B08A4A;outline-offset:2px}
+.modal-bg{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(28,28,26,0.6);display:flex;align-items:center;justify-content:center;padding:20px;z-index:999}
+.modal-box{background:#fff;border-radius:16px;padding:28px;max-width:680px;width:100%;max-height:85vh;overflow-y:auto;border:1px solid #E4DFD3}
+.check-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:18px;align-items:start}.check-title{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap}.check-help{font-size:14px;color:#6B6A63;line-height:1.55;margin:6px 0 14px}.check-input{min-height:260px;line-height:1.6;resize:vertical}.check-result{min-height:300px}.check-action{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px}.spinner{width:16px;height:16px;border:2px solid #d8e3de;border-top-color:#1F3D36;border-radius:50%;display:inline-block;animation:spin .8s linear infinite;vertical-align:-3px;margin-right:8px}@keyframes spin{to{transform:rotate(360deg)}}.help-card{background:#F7F4EE;border:1px solid #E4DFD3;border-radius:12px;padding:14px 16px;color:#56564f;line-height:1.55}.standard-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.standard-card{background:#fff;border:1px solid #E4DFD3;border-radius:16px;padding:22px}.standard-card h3{font-size:20px;margin-bottom:8px}.standard-card label{display:block;font-weight:600}.judge-table{width:100%;border-collapse:collapse;font-size:14px;min-width:760px}.judge-table th,.judge-table td{padding:12px 14px;border-bottom:1px solid #E5E2D8;text-align:left;vertical-align:middle}.judge-table th{font-weight:650;color:#6B6A63;background:#FAF9F6}.judge-table code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:#F3F1E9;border-radius:6px;padding:4px 7px;color:#1F3D36}.danger-btn{border-color:#9D4141;color:#9D4141}.danger-btn:hover{background:#F9EEEE}
+@media(max-width:760px){.check-grid,.standard-grid{grid-template-columns:1fr}.check-input{min-height:200px}.w{padding:24px 14px}.top{padding:10px 12px}.c{padding:18px}}
+
+/* ---------- ECHO refreshed workspace shell ---------- */
+:root{--app-bg:#f5f6f3;--surface:#fff;--surface-2:#f2f5f2;--text:#17251f;--muted:#69756f;--line:#dfe6e0;--brand:#1f493e;--brand-soft:#e7f0eb;--danger:#a43f3f;--shadow:0 10px 30px rgba(23,37,31,.055)}
+body{background:var(--app-bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body[data-theme="dark"]{--app-bg:#101714;--surface:#18221e;--surface-2:#202c27;--text:#edf4ef;--muted:#a8b6ad;--line:#33443b;--brand:#9bcbb3;--brand-soft:#24372e;--danger:#f09b9b;--shadow:0 12px 32px rgba(0,0,0,.22);color-scheme:dark}
+body[data-theme="dark"] .c,body[data-theme="dark"] .standard-card,body[data-theme="dark"] .modal-box,body[data-theme="dark"] .top,body[data-theme="dark"] .help-card,body[data-theme="dark"] .app-toolbar,body[data-theme="dark"] .app-sidebar{background:var(--surface)!important;border-color:var(--line)!important;color:var(--text)!important}
+body[data-theme="dark"] .i,body[data-theme="dark"] input,body[data-theme="dark"] textarea,body[data-theme="dark"] select{background:#111a16!important;color:var(--text)!important;border-color:var(--line)!important}
+body[data-theme="dark"] .m,body[data-theme="dark"] .check-help,body[data-theme="dark"] small,body[data-theme="dark"] label{color:var(--muted)!important}
+body[data-theme="dark"] h1,body[data-theme="dark"] h2,body[data-theme="dark"] h3,body[data-theme="dark"] h4,body[data-theme="dark"] strong{color:var(--text)!important}
+body[data-theme="dark"] a:not(.b):not(.s){color:var(--brand)!important}
+body[data-theme="dark"] .s{background:var(--surface-2)!important;color:var(--text)!important;border-color:var(--line)!important}
+body[data-theme="dark"] .b{background:#2e6553!important;color:#fff!important}
+body[data-theme="dark"] .help-card{background:var(--surface-2)!important;color:var(--text)!important}
+body[data-theme="dark"] .judge-table th{background:var(--surface-2)!important;color:var(--muted)!important}
+body[data-theme="dark"] .judge-table td{border-color:var(--line)!important;color:var(--text)!important}
+body[data-theme="dark"] .judge-table code{background:var(--surface-2)!important;color:var(--text)!important}
+body[data-theme="dark"] .r{border-color:var(--line)!important}
+body[data-theme="dark"] .toast{background:#20392e!important;color:#c5ead5!important}
+body[data-theme="dark"] .g{background:#20392e!important;color:#c5ead5!important}
+body[data-theme="dark"] .a{background:#45371e!important;color:#f1d99a!important}
+body[data-theme="dark"] .x{background:#482929!important;color:#ffd0d0!important}
+.app-frame{min-height:100vh;display:grid;grid-template-columns:252px minmax(0,1fr);background:var(--app-bg);color:var(--text)}
+.app-frame.sidebar-collapsed{grid-template-columns:76px minmax(0,1fr)}
+.app-frame.sidebar-collapsed .brand-copy,.app-frame.sidebar-collapsed .sidebar-label,.app-frame.sidebar-collapsed .sidebar-link-label,.app-frame.sidebar-collapsed .sidebar-user-copy{display:none}.app-frame.sidebar-collapsed .sidebar-brand{padding:0;justify-content:center}.app-frame.sidebar-collapsed .sidebar-link{justify-content:center;padding:0}.app-frame.sidebar-collapsed .sidebar-user{justify-content:center;padding:9px 0}.app-frame.sidebar-collapsed .sidebar-collapse{justify-content:center;padding:0}.app-frame.sidebar-collapsed .sidebar-collapse .sidebar-icon svg{transform:rotate(180deg)}
+.app-sidebar{height:100vh;position:sticky;top:0;align-self:start;display:flex;flex-direction:column;background:var(--surface);border-right:1px solid var(--line);z-index:40;overflow:hidden;transition:transform .18s ease}
+.sidebar-brand{height:76px;display:flex;align-items:center;gap:12px;padding:0 18px;border-bottom:1px solid var(--line);flex:none}
+.brand-mark{height:38px;width:38px;display:grid;place-items:center;border-radius:12px;background:var(--brand);color:#fff;font-family:Georgia,serif;font-size:23px;font-weight:700;flex:none}
+.brand-copy{display:flex;flex-direction:column;line-height:1.15;white-space:nowrap}.brand-copy strong{font-family:Georgia,serif;font-size:21px;letter-spacing:.6px;color:var(--text)}.brand-copy small{font-size:10px;letter-spacing:1.15px;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.sidebar-label{padding:22px 20px 8px;color:var(--muted);font-size:10px;font-weight:750;letter-spacing:1.15px;white-space:nowrap}
+.sidebar-nav{padding:0 10px;display:flex;flex-direction:column;gap:4px;overflow:auto;flex:1}
+.sidebar-link{height:44px;min-height:44px;padding:0 12px;display:flex;align-items:center;gap:13px;border-radius:10px;color:var(--muted)!important;text-decoration:none;font-size:13px;font-weight:600;white-space:nowrap;transition:background .15s,color .15s}
+.sidebar-link:hover{background:var(--surface-2);color:var(--text)!important}.sidebar-link.active{background:var(--brand-soft);color:var(--brand)!important}
+.sidebar-icon{width:20px;height:20px;display:grid;place-items:center;flex:none}.sidebar-icon svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.sidebar-bottom{padding:12px 10px 14px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.sidebar-user{display:flex;align-items:center;gap:10px;padding:9px 10px;min-width:0}.user-avatar{width:32px;height:32px;border-radius:50%;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;font-weight:750;flex:none}.sidebar-user-copy{display:flex;flex-direction:column;min-width:0;line-height:1.35}.sidebar-user-copy strong{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sidebar-user-copy small{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sidebar-collapse{height:38px;border:0;background:transparent;color:var(--muted);display:flex;align-items:center;gap:12px;padding:0 13px;border-radius:9px;cursor:pointer;font:600 12px system-ui,-apple-system,sans-serif}.sidebar-collapse:hover{background:var(--surface-2);color:var(--text)}
+.app-main{min-width:0;min-height:100vh;display:flex;flex-direction:column}
+.app-toolbar{height:76px;position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:14px;padding:0 clamp(18px,3vw,38px);background:var(--surface);border-bottom:1px solid var(--line)}
+.toolbar-menu{display:none}.toolbar-title{font-size:14px;font-weight:700;color:var(--text);flex:1}.toolbar-actions{display:flex;align-items:center;gap:10px}.toolbar-chip{font-size:11px;color:var(--muted);padding:7px 10px;border:1px solid var(--line);border-radius:99px;white-space:nowrap}.toolbar-user{font-size:12px;color:var(--muted);max-width:190px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.icon-button{height:38px;width:38px;display:inline-grid;place-items:center;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);cursor:pointer}.icon-button:hover{background:var(--surface-2)}.icon-button svg{height:18px;width:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.app-content{width:100%;max-width:1500px;margin:0 auto;padding:30px clamp(18px,3vw,42px) 44px;box-sizing:border-box;min-width:0}.app-content .w{max-width:1320px;padding:0;margin:0 auto}.app-footer{color:var(--muted);font-size:11px;padding:18px 0 0;margin-top:28px;border-top:1px solid var(--line);line-height:1.6}
+.sidebar-backdrop{display:none}
+.dashboard-hero{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;padding:26px 28px;background:linear-gradient(120deg,var(--surface),var(--brand-soft));border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.dashboard-eyebrow{font-size:10px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--brand);margin-bottom:10px}.dashboard-title{font-size:34px!important;line-height:1.12;margin-bottom:8px!important}.dashboard-subtitle{color:var(--muted);font-size:13px;line-height:1.6;max-width:650px}.dashboard-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:18px 0 28px}.stat-card{border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow)}.stat-label{font-size:11px;color:var(--muted);font-weight:650}.stat-value{font-size:26px;font-weight:750;color:var(--text);margin-top:5px}.stat-note{font-size:11px;color:var(--muted);margin-top:3px}
+.workspace-heading{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:26px 0 12px}.workspace-heading h3{font-family:inherit;font-size:16px;font-weight:750}.workspace-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.workspace-card{display:flex;gap:14px;align-items:flex-start;text-decoration:none;color:var(--text)!important;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:19px;min-height:112px;box-shadow:var(--shadow);transition:transform .15s,border-color .15s}.workspace-card:hover{transform:translateY(-2px);border-color:var(--brand)}.workspace-card .workspace-card-icon{width:39px;height:39px;display:grid;place-items:center;flex:none;border-radius:11px;background:var(--brand-soft);color:var(--brand)}.workspace-card .workspace-card-icon svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.workspace-card strong{font-size:13px;display:block;margin:1px 0 5px}.workspace-card span{font-size:11px;color:var(--muted);line-height:1.55;display:block}
+.check-page-intro{margin-bottom:18px}.check-page-intro h2{font-size:33px!important;margin:8px 0!important}.check-mode-note{padding:12px 14px;border:1px solid var(--line);background:var(--surface-2);border-radius:11px;color:var(--muted);font-size:12px;line-height:1.55;margin-bottom:14px}.check-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}.check-grid>.c{box-shadow:var(--shadow);border-radius:17px}.check-input{min-height:320px!important;font-size:14px!important}.check-result{min-height:380px}.check-action .b,.check-action .s{min-width:130px}.result-empty{display:grid;place-items:center;text-align:center;min-height:270px;padding:20px;color:var(--muted)}.result-empty-icon{width:52px;height:52px;border-radius:16px;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;margin:0 auto 12px}.result-empty-icon svg{width:25px;height:25px;stroke:currentColor;fill:none;stroke-width:1.8}
+.standard-grid{gap:14px}.standard-card{box-shadow:var(--shadow)}.standard-card h3{font-family:inherit;font-size:16px!important;font-weight:750}.standard-card label{font-size:13px}.check-help{font-size:12px}.judge-table{min-width:900px}.judge-table td{font-size:13px}.judge-table .s{white-space:nowrap}
+body[data-theme="light"] .judge-table .judge-recommended td{background:#f3f7f4!important;color:#17352e!important}
+body[data-theme="dark"] .judge-table .judge-recommended td{background:#253a32!important;color:#edf6f0!important}
+body[data-theme="dark"] .judge-table .judge-recommended .t{background:#20392e!important;color:#c5ead5!important}
+.review-post{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:16px;margin:10px 0;display:flex;align-items:flex-start;gap:16px;box-shadow:var(--shadow)}.review-post-main{flex:1;min-width:0}.review-post-title{font-size:13px;line-height:1.5;overflow-wrap:anywhere}.review-post-meta{font-size:11px;color:var(--muted);margin-top:7px}.review-post-actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap;justify-content:flex-end}.review-post-actions .s,.review-post-actions .b{min-height:34px;padding:6px 10px;font-size:11px}.danger-btn{color:var(--danger)!important;border-color:var(--danger)!important}
+@media(max-width:1050px){.app-frame{grid-template-columns:220px minmax(0,1fr)}.app-frame.sidebar-collapsed{grid-template-columns:72px minmax(0,1fr)}.workspace-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.app-frame,.app-frame.sidebar-collapsed{display:block}.app-frame.sidebar-collapsed .brand-copy,.app-frame.sidebar-collapsed .sidebar-label,.app-frame.sidebar-collapsed .sidebar-link-label,.app-frame.sidebar-collapsed .sidebar-user-copy{display:flex}.app-frame.sidebar-collapsed .sidebar-label{display:block}.app-frame.sidebar-collapsed .sidebar-brand{padding:0 18px;justify-content:flex-start}.app-frame.sidebar-collapsed .sidebar-link{justify-content:flex-start;padding:0 12px}.app-frame.sidebar-collapsed .sidebar-user{justify-content:flex-start;padding:9px 10px}.app-sidebar{position:fixed;left:0;top:0;width:260px;height:100dvh;transform:translateX(-105%);box-shadow:var(--shadow)}.app-frame.mobile-open .app-sidebar{transform:translateX(0)}.sidebar-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:35}.app-frame.mobile-open .sidebar-backdrop{display:block}.sidebar-collapse{display:none}.toolbar-menu{display:inline-grid}.toolbar-user,.toolbar-chip{display:none}.app-toolbar{height:62px;padding:0 14px}.app-content{padding:20px 14px 30px}.dashboard-hero{padding:20px;align-items:flex-start;flex-direction:column}.dashboard-title{font-size:28px!important}.dashboard-stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.stat-card{padding:12px}.stat-value{font-size:21px}.workspace-grid{grid-template-columns:1fr}.check-grid{grid-template-columns:1fr}.check-input{min-height:220px!important}.review-post{display:block}.review-post-actions{justify-content:flex-start;margin-top:12px}.standard-grid{grid-template-columns:1fr}}
+@media(max-width:480px){.dashboard-stats{grid-template-columns:1fr}.toolbar-title{font-size:13px}.check-action .b,.check-action .s{flex:1;min-width:0}}
+
+
+
+/* ---------- ECHO visual refinement: neutral dark theme + usable file library ---------- */
+body[data-theme="dark"]{
+  --app-bg:#11151b;
+  --surface:#1a2029;
+  --surface-2:#232b36;
+  --text:#edf1f7;
+  --muted:#a8b2c0;
+  --line:#35404e;
+  --brand:#9bb9e5;
+  --brand-soft:#27364a;
+  --danger:#ff9d9d;
+  --shadow:0 10px 28px rgba(0,0,0,.22);
+  color-scheme:dark;
+  background:var(--app-bg);
+  color:var(--text);
+}
+body[data-theme="dark"] .app-frame,
+body[data-theme="dark"] .app-main,
+body[data-theme="dark"] .app-content{background:var(--app-bg)!important;color:var(--text)!important}
+body[data-theme="dark"] .app-sidebar,
+body[data-theme="dark"] .app-toolbar,
+body[data-theme="dark"] .c,
+body[data-theme="dark"] .standard-card,
+body[data-theme="dark"] .stat-card,
+body[data-theme="dark"] .workspace-card,
+body[data-theme="dark"] .vault-folder,
+body[data-theme="dark"] .vault-create,
+body[data-theme="dark"] .modal-box{background:var(--surface)!important;color:var(--text)!important;border-color:var(--line)!important}
+body[data-theme="dark"] .dashboard-hero{background:linear-gradient(120deg,#1a2029,#202d3d)!important;border-color:var(--line)!important}
+body[data-theme="dark"] .dashboard-title,
+body[data-theme="dark"] .dashboard-subtitle,
+body[data-theme="dark"] .workspace-card,
+body[data-theme="dark"] .vault-folder-title h3{color:var(--text)!important}
+body[data-theme="dark"] .dashboard-eyebrow,
+body[data-theme="dark"] .workspace-card-icon{color:var(--brand)!important}
+body[data-theme="dark"] .workspace-card-icon{background:var(--brand-soft)!important}
+body[data-theme="dark"] .workspace-card span{color:var(--muted)!important}
+body[data-theme="dark"] .i,
+body[data-theme="dark"] input,
+body[data-theme="dark"] textarea,
+body[data-theme="dark"] select{background:#151b23!important;color:var(--text)!important;border-color:var(--line)!important}
+body[data-theme="dark"] input::placeholder,
+body[data-theme="dark"] textarea::placeholder{color:#8592a3!important}
+body[data-theme="dark"] .b{background:#42618d!important;color:#fff!important;border-color:#5879a8!important}
+body[data-theme="dark"] .b:hover{background:#5273a1!important}
+body[data-theme="dark"] .s,
+body[data-theme="dark"] .icon-button{background:#222b37!important;color:#e7edf6!important;border-color:#3c4858!important}
+body[data-theme="dark"] .s:hover,
+body[data-theme="dark"] .icon-button:hover{background:#2b3745!important}
+body[data-theme="dark"] .help-card,
+body[data-theme="dark"] .check-mode-note{background:#202a36!important;color:#d6deea!important;border-color:var(--line)!important}
+body[data-theme="dark"] .m,
+body[data-theme="dark"] .check-help,
+body[data-theme="dark"] small,
+body[data-theme="dark"] .stat-label,
+body[data-theme="dark"] .stat-note,
+body[data-theme="dark"] .review-post-meta{color:var(--muted)!important}
+body[data-theme="dark"] h1,
+body[data-theme="dark"] h2,
+body[data-theme="dark"] h3,
+body[data-theme="dark"] h4,
+body[data-theme="dark"] strong{color:var(--text)!important}
+body[data-theme="dark"] a:not(.b):not(.s){color:var(--brand)!important}
+body[data-theme="dark"] .judge-table th{background:#232c38!important;color:#c1ccda!important}
+body[data-theme="dark"] .judge-table td{background:#1a2029!important;color:#edf1f7!important;border-color:var(--line)!important}
+body[data-theme="dark"] .judge-table .judge-recommended td{background:#253448!important;color:#edf4ff!important}
+body[data-theme="dark"] .judge-table code{background:#2b3746!important;color:#edf4ff!important}
+body[data-theme="dark"] .review-post{background:var(--surface)!important;border-color:var(--line)!important}
+body[data-theme="dark"] .result-empty,
+body[data-theme="dark"] .vault-empty-inline{color:var(--muted)!important}
+body[data-theme="dark"] .vault-folder-head{border-color:var(--line)!important}
+body[data-theme="dark"] .vault-file-row{border-color:var(--line)!important}
+body[data-theme="dark"] .vault-file-icon,
+body[data-theme="dark"] .vault-upload-plus,
+body[data-theme="dark"] .vault-empty-mark{background:#29384c!important;color:#aec8ed!important}
+body[data-theme="dark"] .vault-privacy.is-private{background:#26374a!important;color:#bed2ef!important}
+body[data-theme="dark"] .vault-privacy.is-shared{background:#263d35!important;color:#b4e1ca!important}
+body[data-theme="dark"] .vault-upload{background:#1d2733!important;border-color:#3c4c60!important}
+body[data-theme="dark"] .vault-access{border-color:var(--line)!important}
+body[data-theme="dark"] .vault-access summary{color:#dce5f1!important}
+body[data-theme="dark"] .vault-permission-row{border-color:var(--line)!important}
+body[data-theme="dark"] .toast{background:#263d35!important;color:#c7ecd6!important}
+body[data-theme="dark"] .g{background:#263d35!important;color:#c7ecd6!important}
+body[data-theme="dark"] .a{background:#413821!important;color:#f2d99b!important}
+body[data-theme="dark"] .x{background:#462d32!important;color:#ffd1d1!important}
+body[data-theme="dark"] .bar{background:#303a48!important}
+body[data-theme="dark"] .app-footer{border-color:var(--line)!important;color:var(--muted)!important}
+body[data-theme="dark"] .modal-bg{background:rgba(3,7,12,.72)!important}
+body[data-theme="dark"] .danger-btn{color:#ffaaaa!important;border-color:#a85e68!important}
+body[data-theme="dark"] .danger-btn:hover{background:#3b252c!important}
+
+.vault-page{display:flex;flex-direction:column;gap:18px}
+.vault-page-head{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap}
+.vault-page-head h2{font-size:34px;margin:7px 0 5px}
+.vault-page-head p{font-size:13px;line-height:1.55}
+.vault-summary{display:flex;align-items:baseline;gap:7px;padding:10px 14px;border:1px solid var(--line);background:var(--surface);border-radius:12px;color:var(--muted);font-size:12px}
+.vault-summary strong{font-size:19px;color:var(--text)}.vault-summary i{height:20px;border-left:1px solid var(--line);margin:0 7px}
+.vault-toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.vault-search{display:flex;align-items:center;gap:10px;min-width:min(100%,340px);max-width:440px;flex:1;padding:0 12px;border:1px solid var(--line);background:var(--surface);border-radius:11px;color:var(--muted)}
+.vault-search svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8}
+.vault-search input{border:0!important;outline:0!important;box-shadow:none!important;background:transparent!important;margin:0!important;padding:11px 0!important;min-width:0}
+.vault-access-hint{font-size:11px;color:var(--muted)}
+.vault-create{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:17px 18px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.vault-create>div:first-child strong{font-size:14px}.vault-create p{font-size:11px;margin-top:4px}
+.vault-create-fields{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end;flex:1}
+.vault-create-fields .i{width:auto;min-width:150px;max-width:240px;margin:0;font-size:12px;padding:10px}
+.vault-create-fields .b{font-size:12px;min-height:38px;padding:8px 14px}
+.vault-folder-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}
+.vault-folder{min-width:0;border:1px solid var(--line);border-radius:15px;background:var(--surface);overflow:hidden;box-shadow:var(--shadow)}
+.vault-folder-head{display:flex;align-items:center;gap:11px;padding:15px 16px;border-bottom:1px solid var(--line)}
+.vault-folder-icon,.vault-file-icon,.vault-empty-mark{display:grid;place-items:center;width:38px;height:38px;border-radius:11px;background:var(--brand-soft);color:var(--brand);flex:none}
+.vault-folder-icon svg,.vault-file-icon svg,.vault-empty-mark svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.vault-folder-title{flex:1;min-width:0}.vault-folder-title h3{font:700 14px system-ui,sans-serif;overflow-wrap:anywhere}.vault-folder-title small{display:block;margin-top:4px;font-size:10px;color:var(--muted)}
+.vault-privacy{font-size:10px;font-weight:700;border-radius:99px;padding:5px 8px;white-space:nowrap}.vault-privacy.is-private{background:#edf1f5;color:#52667e}.vault-privacy.is-shared{background:#e6f3eb;color:#286044}
+.vault-file-list{padding:2px 15px}.vault-file-row{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}.vault-file-row:last-child{border-bottom:0}
+.vault-file-icon{width:32px;height:32px;border-radius:9px}.vault-file-main{flex:1;min-width:0}.vault-file-main strong{display:block;font-size:12px;overflow-wrap:anywhere}.vault-file-main small{display:block;font-size:10px;color:var(--muted);margin-top:4px}
+.vault-file-actions{display:flex;gap:6px;flex:none}.vault-action{font-size:10px!important;min-height:30px!important;padding:5px 9px!important}
+.vault-empty-inline{padding:17px 3px;color:var(--muted);font-size:11px;line-height:1.5}
+.vault-upload{margin:0 15px 13px;border:1px dashed #aebbb3;border-radius:11px;background:#fafbf9;position:relative}
+.vault-upload-label{display:flex;align-items:center;gap:10px;padding:11px;cursor:pointer}.vault-upload-label strong{display:block;font-size:11px}.vault-upload-label small{display:block;margin-top:3px;color:var(--muted);font-size:10px}
+.vault-upload-plus{display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:#eaf1ec;color:#325747;font-size:20px;font-weight:400}
+.vault-file-input{display:block;width:calc(100% - 22px);margin:0 11px 10px;font-size:11px;color:var(--muted)}
+.vault-access{margin:0 15px 14px;border-top:1px solid var(--line);padding-top:10px}.vault-access summary{cursor:pointer;font-size:11px;font-weight:700;color:#52665c;padding:4px 0}.vault-access-body{padding-top:10px}
+.vault-duration{display:flex;align-items:center;gap:10px;font-size:11px;color:var(--muted);margin-bottom:9px}.vault-duration .s{font-size:11px;min-height:32px;padding:5px 8px}
+.vault-permission-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 0;border-top:1px solid var(--line)}.vault-permission-row>span{min-width:0}.vault-permission-row strong{display:block;font-size:11px}.vault-permission-row small{display:block;margin-top:3px;font-size:10px}.vault-permission-row select{max-width:130px;font-size:11px;min-height:32px;padding:4px 8px}
+.vault-empty{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;min-height:180px;padding:28px;border:1px dashed var(--line);border-radius:14px;background:var(--surface);color:var(--muted)}.vault-empty strong{color:var(--text);font-size:13px}.vault-empty p{font-size:11px;margin:0}
+.vault-folder[hidden],.vault-empty[hidden]{display:none!important}
+@media(max-width:900px){.vault-folder-grid{grid-template-columns:1fr}.vault-create{align-items:flex-start;flex-direction:column}.vault-create-fields{width:100%;justify-content:flex-start}}
+@media(max-width:560px){.vault-file-row{align-items:flex-start;flex-wrap:wrap}.vault-file-actions{width:100%;padding-left:42px}.vault-create-fields{display:grid;grid-template-columns:1fr}.vault-create-fields .i{max-width:none;width:100%;box-sizing:border-box}.vault-page-head h2{font-size:29px}}
+
+</style></head><body><div id="app"></div>
+<script>
+const POW={review:'Review content',approve:'Approve content',files:'Manage files',voice:'See customer voice',authority:'Pass authority down'};
+const ROLES=['CEO','Head of Department','Supervisor','Employee'],LV=['None','View','Comment','Edit','Approve'];
+let S={users:[],rules:{avoid:[],prefer:[],proof:[],target:{},departments:[]},departments:['Marketing','Product','Support','Legal','General'],posts:[],folders:[],fb:[],sources:[],ai:false,model:''};
+let ses=null,tok=null;try{tok=sessionStorage.getItem('bht')}catch(e){}
+let demoLoginAvailable=false;
+
+let toast='',cur={text:'',f:null,rid:null},modal=null;
+let sidebarCollapsed=false;
+try{sidebarCollapsed=localStorage.getItem('echo-sidebar-collapsed')==='1'}catch(e){}
+function initTheme(){let t='light';try{t=localStorage.getItem('echo-theme')||'light'}catch(e){}document.body.dataset.theme=t==='dark'?'dark':'light'}
+function toggleTheme(){const next=document.body.dataset.theme==='dark'?'light':'dark';document.body.dataset.theme=next;try{localStorage.setItem('echo-theme',next)}catch(e){}const b=$('#themeToggle');if(b){b.setAttribute('aria-label',next==='dark'?'Switch to light mode':'Switch to dark mode');b.innerHTML=iconSvg(next==='dark'?'sun':'moon')}}
+function toggleSidebar(){const frame=$('#appFrame');if(!frame)return;if(window.matchMedia('(max-width:760px)').matches){frame.classList.toggle('mobile-open');return}frame.classList.toggle('sidebar-collapsed');sidebarCollapsed=frame.classList.contains('sidebar-collapsed');try{localStorage.setItem('echo-sidebar-collapsed',sidebarCollapsed?'1':'0')}catch(e){}}
+function closeMobileSidebar(){const frame=$('#appFrame');if(frame)frame.classList.remove('mobile-open')}
+function iconSvg(name){const p={
+ dash:'<path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+ check:'<path d="M9 11 12 14 21 5"/><path d="M20 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h11"/>',
+ review:'<path d="M8 4h8l4 4v12H4V4z"/><path d="M8 4v5h8V4M8 14h8M8 17h5"/>',
+ files:'<path d="M3 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+ insights:'<path d="M4 19V5M4 19h17"/><path d="m7 15 4-4 3 2 6-7"/>',
+ voice:'<path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-4.5a8.5 8.5 0 1 1 16.1-5z"/><path d="M8 11h8M8 14h5"/>',
+ team:'<path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',
+ rules:'<path d="M4 5h16M4 12h16M4 19h16"/><circle cx="8" cy="5" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="10" cy="19" r="2"/>',
+ audit:'<path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h8M8 16h5"/>',
+ disclosure:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7h.01"/>',
+ moon:'<path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5 8.5 8.5 0 1 0 20.5 14.5z"/>',
+ sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"/>',
+ menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',chevrons:'<path d="m9 18 6-6-6-6"/>'
+ };return `<svg viewBox="0 0 24 24" aria-hidden="true">${p[name]||p.dash}</svg>`}
+
+
+const $=s=>document.querySelector(s),V=id=>document.getElementById(id)?document.getElementById(id).value:'';
+const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ja=v=>esc(JSON.stringify(v)); // safe inside onclick="...": JSON string literal, then HTML-escaped
+let GAP=[];
+const reEsc=s=>String(s||'').replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+const me=()=>S.users.find(x=>x.u==ses);
+const par=u=>S.users.find(x=>x.u==u.by);
+const pw=u=>{if(!u)return[];if(u.role==0)return Object.keys(POW);let a=u;while(a&&a.role>0){if(a.exp&&Date.now()>a.exp)return[];a=par(a)}return u.pow||[]};
+const has=(u,p)=>pw(u).includes(p);
+const sub=u=>S.users.filter(x=>x.by==u.u).flatMap(x=>[x,...sub(x)]);
+const go=h=>{if(location.hash==h)draw();else location.hash=h};
+const say=t=>{toast=t};
+
+async function api(p,method='GET',body){
+  const h={};if(tok)h.Authorization='Bearer '+tok;
+  let b;if(body instanceof FormData)b=body;else if(body){h['Content-Type']='application/json';b=JSON.stringify(body)}
+  const r=await fetch('/api'+p,{method,headers:h,body:b});
+  let j={};try{j=await r.json()}catch(e){}
+  if(r.status==401&&tok&&p!='/login'){endSession()}
+  if(!r.ok)throw new Error(typeof j.detail=='string'?j.detail:'Something went wrong ('+r.status+').');
+  return j;
+}
+
+function endSession(){tok=null;ses=null;try{sessionStorage.removeItem('bht')}catch(e){}S={users:[],rules:{avoid:[],prefer:[],proof:[],target:{}},departments:[],posts:[],folders:[],fb:[],sources:[]};}
+async function load(){S=await api('/state');ses=S.me}
+async function act(fn,ok){try{await fn();if(ok)say(ok);await load()}catch(e){say(e.message)}draw()}
+
+function loginScreen(){
+  const demoBtn=demoLoginAvailable?`<button class="s" style="width:100%" onclick="doDemoLogin()">Continue as CEO (demo)</button>`:'';
+  return `<div style="display:flex;min-height:100vh;flex-wrap:wrap"><div style="flex:1;min-width:300px;background:#1F3D36;color:#F7F4EE;display:flex;flex-direction:column;justify-content:center;padding:56px;gap:14px"><h1 style="font-size:44px">Welcome back.</h1><p style="margin:0;font-size:19px">ECHO Brand Governance Platform.<br>Sign in to access your role workspace.</p></div><div style="flex:1;min-width:300px;display:flex;align-items:center;justify-content:center;padding:40px"><div style="width:100%;max-width:360px;display:flex;flex-direction:column;gap:18px"><h2 style="font-size:30px">Sign in</h2><label>Username<input class="i" id="lu" autocomplete="username"></label><label>Password<input class="i" id="lp" type="password" autocomplete="current-password" onkeydown="if(event.key=='Enter')doLogin()"></label><p class="err" id="le" role="alert"></p><button class="b" onclick="doLogin()">Sign in</button>${demoBtn}<div style="display:flex;justify-content:space-between"><a href="#/home" style="color:#6B6A63">Back to home</a><a href="#/feedback-form" style="color:#1F3D36">Customer feedback</a></div></div></div></div>`;
+}
+
+// Public hackathon demo credentials. These are intentionally visible on the judge page
+// for the 10-day judging window requested by the project owner. Rotate every password after judging.
+const DEMO_ACCOUNTS=[
+  {name:'CEO',username:'itz_ceo',password:'Inkloom#Admin2026',role:'CEO',recommended:true},
+  {name:'Vincent',username:'twlightt',password:'kuchbhi123',role:'Head of Department · Legal'},
+  {name:'Dory',username:'finding_nemo',password:'Ellen_DeGeneres',role:'Head of Department · Marketing'},
+  {name:'Michael Corleone',username:'godfather',password:'al_pacino',role:'Head of Department · General'},
+  {name:'Joker',username:'the_dark_knight',password:'heath_ledger',role:'Supervisor · Marketing'},
+  {name:'Hannibal Lecter',username:'hannibal',password:'Mads_Mikkelsen',role:'Employee · Marketing'}
+];
+
+function demoAccountsTable(){
+  const rows=DEMO_ACCOUNTS.map(a=>`<tr class="${a.recommended?'judge-recommended':''}">
+    <td><strong>${esc(a.name)}</strong>${a.recommended?' <span class="t g">Recommended</span>':''}</td>
+    <td><code>${esc(a.username)}</code></td>
+    <td><code>${esc(a.password)}</code></td>
+    <td>${esc(a.role)}</td>
+    <td><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="b" style="min-height:34px;padding:6px 10px;font-size:12px" onclick="loginJudgeAccount(${ja(a.username)},${ja(a.password)})">Sign in</button><button class="s" style="min-height:34px;padding:6px 10px;font-size:12px" onclick="copyJudgeAccount(${ja(a.username)},${ja(a.password)})">Copy</button></div></td>
+  </tr>`).join('');
+  return `<div style="overflow-x:auto"><table class="judge-table"><thead><tr><th>Name</th><th>Username</th><th>Password</th><th>Role</th><th>Action</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+
+function judgesScreen(){
+  return `<div style="display:flex;justify-content:space-between;align-items:center;padding:20px 40px"><strong style="font-family:Georgia,serif;font-size:24px;color:#1F3D36;letter-spacing:1px">ECHO</strong><a class="s" href="#/home">Back to home</a></div>
+  <div style="max-width:1120px;margin:0 auto;padding:20px 24px 64px">
+    <div style="max-width:760px;margin-bottom:22px"><span class="t g">HACKATHON DEMO ACCESS</span><h1 style="font-size:38px;color:#1F3D36;margin:10px 0 8px">Welcome, judges</h1>
+    <p class="m" style="font-size:16px;line-height:1.6">Use any account below to explore ECHO from a different role. The CEO account is recommended for the complete feature tour. Select <strong>Sign in</strong> to open that account directly, or choose <strong>Copy</strong> to copy its credentials.</p></div>
+    <div class="c" style="padding:8px"><div style="padding:12px 14px 16px"><strong>Demo account credentials</strong><p class="m" style="margin-top:5px;font-size:13px">These temporary credentials are intentionally public for this hackathon. Please use them only for evaluation.</p></div>${demoAccountsTable()}</div>
+    <div class="help-card" style="margin-top:16px"><strong>Recommended judging path:</strong> Sign in as CEO → Check my post → Customer voice → Brand standards → Review. Use the role accounts to inspect department-level permissions and the approval workflow.</div>
+    <p class="m" style="font-size:12px;margin-top:14px">Security note: these are shared demo credentials, not private employee accounts. Rotate or disable them after the judging period.</p>
+    <div style="margin-top:22px"><a class="b" href="#/login">Open sign-in page</a></div>
+  </div>`;
+}
+
+async function loginJudgeAccount(username,password){
+  try{
+    const r=await api('/login','POST',{username,password});
+    tok=r.token;try{sessionStorage.setItem('bht',tok)}catch(e){}
+    await load();go('#/dash');
+  }catch(e){alert('Demo sign-in failed: '+e.message)}
+}
+async function copyJudgeAccount(username,password){
+  const text=`Username: ${username}\nPassword: ${password}`;
+  try{await navigator.clipboard.writeText(text);alert('Demo credentials copied.')}catch(e){
+    const el=document.createElement('textarea');el.value=text;document.body.appendChild(el);el.select();
+    try{document.execCommand('copy');alert('Demo credentials copied.')}catch(_){alert(text)}finally{el.remove()}
+  }
+}
+
+function homeScreen(){
+  return `<div style="display:flex;justify-content:space-between;align-items:center;padding:20px 40px"><strong style="font-family:Georgia,serif;font-size:24px;color:#1F3D36;letter-spacing:1px">ECHO</strong><div style="display:flex;gap:12px"><a class="s" href="#/judges">For judges</a><a class="s" href="#/login">Sign in</a></div></div><div style="max-width:900px;margin:0 auto;padding:56px 24px 32px;text-align:center;display:flex;flex-direction:column;gap:18px;align-items:center"><h1 style="font-size:52px;color:#1F3D36">Keep every post on brand.</h1><p class="m" style="font-size:20px">Unified brand governance, automated guideline checks, and human sign-offs.</p><div style="display:flex;gap:14px"><a class="b" href="#/login">Sign in to platform</a><a class="s" href="#/disclosure">AI disclosure</a></div></div><div class="h" style="max-width:900px;margin:0 auto;padding:0 24px 40px">${[['Upload & check','Content checked against approved brand guidelines and sources.'],['Human in the loop','Suggestions can be accepted, edited or rejected.'],['Hierarchical sign-off','Supervisor review and Head approval before release.']].map((x,i)=>`<div class="c"><span class="n">${i+1}</span><h2 style="font-size:24px;margin-top:12px">${x[0]}</h2><p class="m">${x[1]}</p></div>`).join('')}</div>`;
+}
+
+async function doLogin(){
+  const e=$('#le');
+  try{
+    const r=await api('/login','POST',{username:V('lu'),password:V('lp')});
+    tok=r.token;try{sessionStorage.setItem('bht',tok)}catch(x){}
+    await load();go('#/dash');
+  }catch(x){e.textContent=x.message;}
+}
+
+async function doDemoLogin(){
+  const e=$('#le');
+  try{
+    const r=await api('/demo-login','POST',{});
+    tok=r.token;try{sessionStorage.setItem('bht',tok)}catch(x){}
+    await load();go('#/dash');
+  }catch(x){e.textContent=x.message;}
+}
+
+function logout(){endSession();go('#/home')}
+
+function shell(r,m,inner){
+  const nav=[['dash','Home','dash',1],['check','Check my post','check',1],['review','Review queue','review',1],['files','File vault','files',1],['insights','Insights','insights',1],['voice','Customer voice','voice',has(m,'voice')],['team','Team authority','team',has(m,'authority')],['rules','Writing standards','rules',m.role==0],['audit','Audit log','audit',m.role==0||(m.role==1&&has(m,'authority'))],['disclosure','AI & privacy','disclosure',1]].filter(x=>x[3]);
+  const labels={dash:'Workspace overview',check:'Check my post',review:'Review queue',files:'File vault',insights:'Insights',voice:'Customer voice',team:'Team authority',rules:'Writing standards',audit:'Audit log',disclosure:'AI & privacy'};
+  const initial=String(m.n||m.u||'E').trim().charAt(0).toUpperCase();
+  return `<div class="app-frame ${sidebarCollapsed?'sidebar-collapsed':''}" id="appFrame"><div class="sidebar-backdrop" onclick="closeMobileSidebar()"></div><aside class="app-sidebar" aria-label="Main navigation"><div class="sidebar-brand"><span class="brand-mark">E</span><span class="brand-copy"><strong>ECHO</strong><small>Brand governance</small></span></div><div class="sidebar-label">WORKSPACE</div><nav class="sidebar-nav">${nav.map(x=>`<a class="sidebar-link ${x[0]===r?'active':''}" href="#/${x[0]}" title="${x[1]}" aria-label="${x[1]}" ${x[0]===r?'aria-current="page"':''}><span class="sidebar-icon">${iconSvg(x[2])}</span><span class="sidebar-link-label">${x[1]}</span></a>`).join('')}</nav><div class="sidebar-bottom"><div class="sidebar-user"><span class="user-avatar">${esc(initial)}</span><span class="sidebar-user-copy"><strong>${esc(m.n||m.u)}</strong><small>${ROLES[m.role]} · ${esc(m.department||'General')}</small></span></div><button class="sidebar-collapse" title="Collapse or expand sidebar" aria-label="Collapse or expand sidebar" onclick="toggleSidebar()"><span class="sidebar-icon">${iconSvg('chevrons')}</span><span class="sidebar-link-label">Collapse sidebar</span></button></div></aside><section class="app-main"><header class="app-toolbar"><button class="icon-button toolbar-menu" onclick="toggleSidebar()" aria-label="Open navigation">${iconSvg('menu')}</button><div class="toolbar-title">${labels[r]||'Workspace'}</div><div class="toolbar-actions"><span class="toolbar-user">${esc(m.n)} · ${esc(m.department||'General')}</span><button class="icon-button" id="themeToggle" onclick="toggleTheme()" aria-label="Switch to ${document.body.dataset.theme==='dark'?'light':'dark'} mode">${iconSvg(document.body.dataset.theme==='dark'?'sun':'moon')}</button><button class="s" style="min-height:36px;padding:7px 12px;font-size:12px" onclick="logout()">Log out</button></div></header><main class="app-content"><div class="w">${toast?`<div class="toast" role="status" style="margin-bottom:16px">${esc(toast)}</div>`:''}${inner}<div class="app-footer"><strong>ECHO</strong> · Brand governance workspace · Human reviewers make all final approval decisions.</div></div></main></section>${modal?renderModal():''}</div>`;
+}
+
+function dash(m){
+  const actions=[['check','Check my post','Review a caption or campaign draft against writing standards and approved facts.','#/check'],['review','Review queue','Review work submitted by your team and move it through approval.','#/review'],['files','File vault','Open shared documents, product references and version history.','#/files'],['insights','Insights','See content quality, recurring issues and review activity.','#/insights'],['voice','Customer voice','Group feedback into recurring problems and inspect channel trends.','#/voice'],['team','Team authority','Manage team roles, departments and access.','#/team'],['rules','Writing standards','Set preferred wording, claims that need proof and approved facts.','#/rules'],['audit','Audit log','Review important sign-ins, approvals and administrative actions.','#/audit'],['disclosure','AI & privacy','Understand which checks use AI and how customer data is handled.','#/disclosure']].filter(x=>x[0]==='voice'?has(m,'voice'):x[0]==='team'?has(m,'authority'):x[0]==='rules'?m.role===0:x[0]==='audit'?(m.role===0||(m.role===1&&has(m,'authority'))):true);
+  const isMine=p=>String(p.by||'').toLowerCase()===String(ses||'').toLowerCase();
+  const incoming=S.posts.filter(p=>!isMine(p)&&(p.status==='Waiting'||(p.status==='Recommended'&&has(m,'approve')))).length;
+  const myPosts=S.posts.filter(isMine).length;
+  const feedbackCount=(S.fb||[]).length;
+  return `<section class="dashboard-hero"><div><div class="dashboard-eyebrow">ECHO WORKSPACE</div><h2 class="dashboard-title">Welcome back, ${esc(m.n||m.u)}.</h2><p class="dashboard-subtitle">Your workspace is ready. Check content, review team submissions and keep customer feedback connected to the decisions you make.</p></div></section><section class="dashboard-stats" aria-label="Workspace summary"><div class="stat-card"><div class="stat-label">Awaiting your review</div><div class="stat-value">${incoming}</div><div class="stat-note">Items submitted by other team members</div></div><div class="stat-card"><div class="stat-label">Your submissions</div><div class="stat-value">${myPosts}</div><div class="stat-note">Posts you have sent into the workflow</div></div><div class="stat-card"><div class="stat-label">Customer feedback loaded</div><div class="stat-value">${has(m,'voice')?feedbackCount:'—'}</div><div class="stat-note">${has(m,'voice')?'Latest records available to your role':'Not available for this role'}</div></div></section><div class="workspace-heading"><h3>Tools and workflows</h3><span class="m" style="font-size:11px">Choose a section to continue</span></div><section class="workspace-grid">${actions.map(x=>`<a href="${x[3]}" class="workspace-card"><span class="workspace-card-icon">${iconSvg(x[0])}</span><span><strong>${x[1]}</strong><span>${x[2]}</span></span></a>`).join('')}</section>`;
+}
+
+// ---------- BRAND RULES SCREEN ----------
+function rules(m){
+  const R=S.rules,depts=S.departments||[];
+  const factPanel=m.role==0?`<div class="c"><h3 style="font-size:22px">Approved product facts</h3><p class="m" style="line-height:1.6">Store facts that must stay accurate in every post: prices, product specifications, warranty terms and launch dates. The fact checker compares draft claims with these approved values and shows the source.</p><div id="approved_facts_list"><p class="m">Loading approved facts...</p></div><br>
+  <label>Fact to verify<input class="i" id="fact_name" placeholder="e.g. Product price"></label><br><br>
+  <label>Approved value<input class="i" id="fact_value" placeholder="e.g. ₹999 or 18 December 2026"></label><br><br>
+  <label>Where this fact is confirmed<input class="i" id="fact_source" placeholder="e.g. Official price list / Product specification"></label><br><br>
+  <label>Evidence link (optional)<input class="i" id="fact_url" type="url" placeholder="https://..."></label><br><br>
+  <button class="b" onclick="addApprovedFact()">Save approved fact</button>
+  <div class="help-card" style="margin-top:16px"><strong>Why this matters:</strong> if a draft says ₹1,299 while the approved price is ₹999, ECHO flags the mismatch before the post is published.</div>
+  <hr style="border:0;border-top:1px solid #E4DFD3;margin:20px 0"><h4>52-post fact-check benchmark</h4><p class="m">Load the labelled sample and compare ECHO's checks with the recorded baseline. This measures performance on the included test set, not every possible real-world claim.</p><button class="s" onclick="loadFactBenchmarkSample()">Load 52-post sample</button><textarea class="i" id="fact_benchmark_json" placeholder='{"posts": []}'></textarea><br><br><button class="b" onclick="runFactBenchmark()">Run benchmark</button><div id="fact_benchmark_result"></div></div>`:'';
+  if(m.role==0)setTimeout(loadApprovedFacts,0);
+  return `<div class="check-title"><div><span class="t g">SHARED WRITING POLICY</span><h2 style="font-size:34px;margin:8px 0">Brand writing standards</h2><p class="m" style="max-width:760px;line-height:1.6">Set clear writing rules that ECHO checks in every draft: terms to avoid, replacement wording, claims that must be supported by a source, and the tone your content should use. These settings guide the checker; they do not approve or publish posts.</p></div></div>
+  <div class="standard-grid" style="margin-top:18px">
+    <div class="standard-card"><h3>1. Words and phrases to avoid</h3><p class="check-help">List language your team should not use because it sounds disrespectful, confusing or misleading. ECHO highlights these phrases in a draft.</p><label for="ra">Avoid these words / phrases</label><input class="i" id="ra" value="${esc(R.avoid.join(', '))}" placeholder="e.g. cheap, second-rate, guys"><small class="m">Separate each term with a comma.</small></div>
+    <div class="standard-card"><h3>2. Preferred replacements</h3><p class="check-help">Tell the team which word to use instead. Add one pair per line in the format “old wording = approved wording”.</p><label for="rp">Replace terms consistently</label><textarea class="i" id="rp" style="min-height:110px">${esc(R.prefer.map(x=>x.join(' = ')).join('\n'))}</textarea><small class="m">Example: customers = members.</small></div>
+    <div class="standard-card"><h3>3. Claims that require evidence</h3><p class="check-help">Statements such as “number one”, “guaranteed” or “100%” need a reliable source. Add that source in Approved product facts so reviewers can verify the claim.</p><label for="rc">Require evidence for</label><input class="i" id="rc" value="${esc(R.proof.join(', '))}" placeholder="e.g. #1, best, guaranteed, 100%"><small class="m">Separate each claim with a comma. Add approved evidence in the facts section below.</small></div>
+    <div class="standard-card"><h3>4. Tone targets for your writing</h3><p class="check-help">Set the qualities your writing should communicate. These are internal writing targets, not customer ratings.</p>
+      ${Object.keys(R.target||{}).map(k=>`<label class="k" style="justify-content:space-between"><span>${esc(k)}</span><span style="display:flex;align-items:center;gap:8px"><input class="i" style="width:84px;margin:0" type="number" min="1" max="10" id="rt_${esc(k)}" value="${R.target[k]}"><small class="m">/ 10</small></span></label>`).join('')}
+    </div>
+  </div>
+  <div class="check-action"><button class="b" onclick="saveRules()">Save brand standards</button><span class="m" style="font-size:13px">Changes apply to future content checks.</span></div>
+  <div class="c"><h3 style="font-size:22px">Departments</h3><p class="m">Posts and review queues are separated by department. Heads and Supervisors only see content within their assigned department.</p>
+  ${depts.map(d=>`<div class="r"><strong>${esc(d)}</strong>${d!='General'?`<button class="s" onclick="delDept(${ja(d)})">Remove department</button>`:'<span class="t g">Default</span>'}</div>`).join('')}
+  <br><label>Add a department<input class="i" id="nd_name" placeholder="e.g. Design or Communications"></label><br><br><button class="s" onclick="addDept()">Add department</button></div>
+  <div class="c"><h3 style="font-size:22px">Brand reference library</h3><p class="m" style="line-height:1.6">Upload the source material ECHO should rely on: brand guidelines, product facts, approved terminology or visual assets. AI suggestions cite these references when relevant.</p>
+  ${(S.sources||[]).map(x=>`<div class="r"><span><strong>${esc(x.title)}</strong> <span class="t g">${esc(x.kind)}</span></span><button class="s" onclick="delSrc(${x.id})">Remove</button></div>`).join('')||'<p class="m" style="margin-top:10px">No reference documents added yet.</p>'}
+  <br><label>Reference type<select class="i" id="kk"><option value="guidelines">Brand guidelines</option><option value="facts">Product facts</option><option value="terminology">Approved terminology</option><option value="asset">Logo / visual asset</option></select></label><br><br>
+  <label>Document title<input class="i" id="kt" placeholder="e.g. ECHO tone of voice guide"></label><br><br>
+  <label>Notes or reference text<textarea class="i" id="kx" placeholder="Paste the approved guidance here, or attach a file below."></textarea></label><br><br>
+  <input type="file" id="kf" accept=".txt,.md,.pdf,.docx,.png,.jpg" aria-label="Choose source file"><br><br><button class="b" onclick="addSrc()">Add reference</button></div>${factPanel}`;
+}
+
+function loadApprovedFacts(){
+  api('/facts').then(rows=>{const el=$('#approved_facts_list');if(!el)return;el.innerHTML=rows.map(f=>`<div class="r"><span><strong>${esc(f.name)}: ${esc(f.value)}</strong><br><small class="m">${esc(f.source_title)} ${f.source_url?`· <a href="${esc(f.source_url)}" target="_blank" rel="noopener">evidence</a>`:''}</small></span><button class="s" onclick="deleteApprovedFact(${f.id})">Delete</button></div>`).join('')||'<p class="m">No approved facts saved yet.</p>'}).catch(e=>{const el=$('#approved_facts_list');if(el)el.textContent=e.message});
+}
+function addApprovedFact(){
+  const payload={name:V('fact_name').trim(),value:V('fact_value').trim(),source_title:V('fact_source').trim(),source_url:V('fact_url').trim()};
+  if(!payload.name||!payload.value||!payload.source_title){say('Enter a fact name, approved value and evidence title.');return draw()}
+  act(()=>api('/facts','POST',payload),'Approved fact saved.');
+}
+function deleteApprovedFact(id){if(confirm('Delete this approved fact?'))act(()=>api('/facts/'+id,'DELETE'),'Approved fact deleted.')}
+function runFactBenchmark(){
+  let payload;try{payload=JSON.parse(V('fact_benchmark_json'))}catch(e){say('Benchmark input must be valid JSON.');return draw()}
+  if(!payload||!Array.isArray(payload.posts)||!payload.posts.length){say('Add a non-empty posts array.');return draw()}
+  const el=$('#fact_benchmark_result');if(el)el.textContent='Running benchmark...';
+  api('/facts/evaluate','POST',payload).then(r=>{const target=$('#fact_benchmark_result');if(target)target.innerHTML=`<p><strong>${r.detected_wrong_fact_posts}/${r.wrong_fact_posts}</strong> wrong-fact posts detected · Recall ${(r.recall*100).toFixed(1)}% · Precision ${(r.precision*100).toFixed(1)}% · F1 ${(r.f1*100).toFixed(1)}%</p><p class="m">${r.posts_tested} posts · ${esc(r.model)} · AI used: ${r.used_ai?'Yes':'No'} · ${r.approved_facts_available} approved facts loaded</p>${r.baseline_posts_compared?`<p class="m">Baseline: ${r.baseline_detected_wrong_fact_posts} detected across ${r.baseline_posts_compared} labelled posts (recall ${(r.baseline_recall*100).toFixed(1)}%).</p>`:'<p class="m">Add baseline_detected to each post to calculate a before/after comparison.</p>'}`}).catch(e=>{const target=$('#fact_benchmark_result');if(target)target.textContent=e.message});
+}
+
+function saveRules(){
+  const L=s=>s.split(',').map(x=>x.trim()).filter(Boolean),t={};
+  for(const k in S.rules.target)t[k]=Math.min(10,Math.max(1,+V('rt_'+k)||S.rules.target[k]));
+  act(()=>api('/rules','PUT',{
+    avoid:L(V('ra')),proof:L(V('rc')),
+    prefer:V('rp').split('\n').map(x=>x.split('=').map(y=>y.trim())).filter(x=>x[0]&&x[1]),
+    target:t,departments:S.departments
+  }),'Rules saved.');
+}
+
+function addDept(){const n=V('nd_name').trim();if(n)act(()=>api('/departments','POST',{name:n}),'Department added.')}
+function delDept(n){if(confirm('Delete department '+n+'?'))act(()=>api('/departments/'+encodeURIComponent(n),'DELETE'),'Department deleted.')}
+function addSrc(){
+  const fd=new FormData();fd.append('kind',V('kk'));fd.append('title',V('kt'));fd.append('text',V('kx'));
+  const f=$('#kf').files[0];if(f)fd.append('file',f);
+  if(!V('kt').trim()){say('Give it a title.');return draw()}
+  act(()=>api('/sources','POST',fd),'Added to knowledge base.');
+}
+function delSrc(id){if(confirm('Remove this source?'))act(()=>api('/sources/'+id,'DELETE'),'Removed.')}
+
+// ---------- TEAM AUTHORITY SCREEN ----------
+function team(m){
+  const mine=pw(m),lower=ROLES.map((r,i)=>[r,i]).filter(x=>x[1]>m.role);
+  const list=sub(m),depts=S.departments||['General'];
+  return `<h2 style="font-size:34px">Team authority</h2>
+  <div class="h"><div class="c"><h3 style="font-size:22px">Add a person</h3><br>
+  <label>Full name<input class="i" id="tn"></label><br><br>
+  <label>Username<input class="i" id="tu"></label><br><br>
+  <label>Password (8+ characters)<input class="i" id="tp" type="password"></label><br><br>
+  <label>Role<select class="i" id="tr">${lower.map(x=>`<option value="${x[1]}">${x[0]}</option>`).join('')}</select></label><br><br>
+  <label>Department<select class="i" id="td">${depts.map(d=>`<option value="${esc(d)}">${esc(d)}</option>`).join('')}</select></label>
+  <p class="m" style="margin-top:16px">What can they do?</p>
+  ${Object.keys(POW).filter(k=>mine.includes(k)).map(k=>`<label class="k"><input type="checkbox" name="pw" value="${k}">${POW[k]}</label>`).join('')}
+  <p class="m" style="margin-top:8px">For how long?</p>
+  ${m.role==0?'<label class="k"><input type="radio" name="d" value="0">Always</label>':''}
+  <label class="k"><input type="radio" name="d" value="30" checked>30 days</label>
+  <label class="k"><input type="radio" name="d" value="7">7 days</label>
+  <p class="err" id="te" role="alert"></p>
+  <button class="b" onclick="addUser()">Add person</button></div>
+  <div class="c"><h3 style="font-size:22px">Who has authority now</h3>
+  ${list.length?list.map(u=>{
+    const p=pw(u),ex=u.exp&&Date.now()>u.exp;
+    return `<div class="r"><span><strong>${esc(u.n)}</strong> <span class="m">@${esc(u.u)} · ${ROLES[u.role]} (${esc(u.department||'General')})</span><br><span class="m">${p.length?p.map(k=>POW[k]).join(', '):'No powers'} · ${u.exp?(ex?'expired':'until '+new Date(u.exp).toLocaleDateString()):'always'}</span></span><span><button class="s" onclick="takeBack(${ja(u.u)})">Take back</button> <button class="s" onclick="removeUser(${ja(u.u)})">Remove</button></span></div>`;
+  }).join(''):'<p class="m" style="margin-top:12px">Nobody added yet.</p>'}</div></div>`;
+}
+
+function addUser(){
+  const n=V('tn').trim(),u=V('tu').trim(),p=V('tp'),e=$('#te');
+  if(!n||!u||p.length<8){e.textContent='Fill name, username and a password of 8+ characters.';return}
+  const pow=[...document.querySelectorAll('input[name=pw]:checked')].map(x=>x.value);
+  const d=+document.querySelector('input[name=d]:checked').value;
+  const dept=V('td')||'General';
+  act(()=>api('/users','POST',{name:n,username:u,password:p,role:+V('tr'),powers:pow,days:d,department:dept}),n+' was added.');
+}
+function takeBack(u){act(()=>api('/users/'+encodeURIComponent(u)+'/takeback','POST'),'Authority taken back.')}
+function removeUser(u){if(!confirm('Remove @'+u+' and their subtree?'))return;act(()=>api('/users/'+encodeURIComponent(u),'DELETE'),'Removed.')}
+
+// ---------- CHECK MY POST SCREEN ----------
+function check(m){
+  const f=cur.f,sc=f?L_score(f):0;
+  const results=cur.loading?`<div class="help-card" style="margin-top:14px"><span class="spinner"></span><strong>Checking your draft…</strong><p class="m" style="margin-top:8px">Applying saved brand standards, approved facts and relevant references. The AI provider may take a few seconds to respond.</p></div>`:
+    f?`<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:14px 0"><span class="t ${sc>=8?'g':sc>=5?'a':'x'}">Brand score: ${sc}/10</span><span class="t ${cur.used_ai?'g':'a'}">${cur.used_ai?'AI-assisted review':'Rules and approved-fact check'}</span></div>
+      <div class="help-card" style="margin-bottom:12px">${f.length?`ECHO found <strong>${f.length} item${f.length===1?'':'s'}</strong> to review. Check the explanation and suggested action for each one.`:'<strong>No issues found.</strong> The draft passed the configured checks. Review the wording yourself before publishing.'}</div>
+      ${f.map((x,i)=>{
+        const stBadge=x.status=='accepted'?'<span class="t g">Accepted</span>':x.status=='rejected'?'<span class="t x">Dismissed</span>':x.status=='edited'?'<span class="t a">Edited</span>':'<span class="t a">Needs review</span>';
+        return `<div class="standard-card" style="padding:16px;margin:12px 0"><div class="check-title"><strong>${esc(x.m)}</strong>${stBadge}</div>
+          <p style="margin:10px 0 4px"><strong>Text found:</strong> “${esc(x.q||x.quote||'')}”</p>
+          <p class="check-help"><strong>Why it matters:</strong> ${esc(x.why||x.r||'This item matches a saved brand standard.')}</p>
+          ${x.source_title?`<p class="check-help"><strong>Evidence:</strong> ${esc(x.source_title)} ${x.source_url?`· <a href="${esc(x.source_url)}" target="_blank" rel="noopener">Open source</a>`:''}</p>`:''}
+          ${x.sug?`<p class="check-help"><strong>Suggested change:</strong> ${esc(x.edited||x.sug)}</p>`:''}
+          <p class="m" style="font-size:12px">Source: ${esc(x.origin||'brand standards')} · Severity: ${esc(x.sev||'medium')} · Confidence: ${esc(x.conf||'high')}</p>
+          <div class="check-action">${x.fix?`<button class="s" onclick="fixIt(${i})">Apply quick fix</button>`:''}<button class="s" onclick="setFindingAction(${i},'accepted')">Accept</button><button class="s" onclick="setFindingAction(${i},'rejected')">Dismiss</button><button class="s" onclick="openEditFindingModal(${i})">Edit response</button></div>
+        </div>`;
+      }).join('')}`:
+    `<div class="result-empty"><div><span class="result-empty-icon">${iconSvg('check')}</span><strong>Ready to review your draft</strong><p class="m" style="margin:7px auto 0;max-width:250px">Run a brand check to see matched rules, fact mismatches, source evidence and suggested corrections.</p></div></div>`;
+  return `<div class="check-page-intro"><div class="check-title"><div><span class="dashboard-eyebrow">CONTENT REVIEW</span><h2>Check my post</h2><p class="m" style="line-height:1.6;max-width:720px">Paste a caption, announcement or campaign draft. ECHO checks it against your saved writing standards and approved product facts before you send it to the team.</p></div></div><div class="check-mode-note"><strong>What gets checked</strong><br>Drafts are compared with your saved wording rules, required evidence terms and approved product facts. Review each finding before sending the draft to your team.</div></div>
+  <div class="check-grid">
+    <section class="c"><div class="check-title"><h3 style="font-size:22px">1. Your draft</h3><span class="m" style="font-size:12px">Up to 20,000 characters</span></div>
+      <label for="ct">Paste or edit your content</label><textarea class="i check-input" id="ct" placeholder="Paste your social post, product announcement or campaign copy here…">${esc(cur.text)}</textarea>
+      <p class="check-help">You can also upload a document. Supported formats: TXT, Markdown, PDF and DOCX.</p><input type="file" accept=".txt,.md,.pdf,.docx" onchange="readF(this)" aria-label="Upload document">
+      <div class="check-action"><button class="b" onclick="runCheck()" ${cur.loading?'disabled':''}>${cur.loading?'<span class="spinner"></span>Checking…':'Run brand check'}</button><button class="s" onclick="clearCheck()" ${cur.loading?'disabled':''}>Clear draft</button></div>
+      <div style="border-top:1px solid #E4DFD3;margin-top:20px;padding-top:18px"><h3 style="font-size:18px">Optional: check an image</h3><p class="check-help">The current image check is limited to dominant-colour contrast. It does not verify image meaning or all accessibility requirements.</p><input type="file" id="v_file" accept=".png,.jpg,.jpeg" onchange="runVisualCheck(this)" aria-label="Upload image for limited contrast check"></div>
+    </section>
+    <section class="c check-result"><div class="check-title"><h3 style="font-size:22px">2. Review results</h3>${f&&!cur.loading?`<span class="t ${sc>=8?'g':sc>=5?'a':'x'}">${sc}/10</span>`:''}</div>${results}</section>
+  </div>
+  <div class="c" style="margin-top:18px"><div class="check-title"><div><h3 style="font-size:21px">3. Send for team review</h3><p class="check-help" style="margin-bottom:0">Once you have checked the draft and resolved or acknowledged findings, submit it to the normal supervisor/head approval flow.</p></div><button class="b" onclick="sendPost()" ${cur.loading||!cur.text.trim()?'disabled':''}>Send for review</button></div></div>`;
+}
+
+function clearCheck(){if(cur.loading)return;cur={text:'',f:null,rid:null,reviewedText:undefined,used_ai:false,model:null,loading:false};draw()}
+
+function L_score(f){
+  const active=f.filter(x=>x.status!='rejected');
+  return Math.max(0,10-active.reduce((a,b)=>a+(b.sev=='high'?3:b.sev=='medium'?2:1),0));
+}
+
+async function doReview(){
+  if(cur.loading)return;
+  cur.loading=true;cur.f=null;cur.used_ai=false;cur.model=null;draw();
+  try{
+    const r=await api('/review','POST',{text:cur.text});
+    cur.f=r.findings;cur.rid=r.review_id;cur.reviewedText=cur.text;cur.used_ai=r.used_ai;cur.model=r.model;
+    say(r.used_ai?'AI-assisted review complete.':'Rules and approved-fact check complete.');
+  }catch(e){say(e.message);cur.f=null}
+  finally{cur.loading=false;draw()}
+}
+
+function runCheck(){cur.text=V('ct');if(!cur.text.trim()){say('Enter content first.');return draw()}doReview()}
+async function readF(i){
+  const f=i.files[0];if(!f)return;
+  const fd=new FormData();fd.append('file',f);
+  try{
+    const r=await api('/extract','POST',fd);   // the server reads PDF/DOCX; the browser cannot
+    cur.text=r.text;
+    await doReview();
+    if(r.truncated){say('Only the first 20,000 characters of that file were checked.');draw()}
+  }catch(e){say(e.message);draw()}
+}
+function fixIt(i){
+  const[a,b]=cur.f[i].fix;
+  cur.text=V('ct').replace(new RegExp(reEsc(a),'gi'),()=>b).replace(/ {2,}/g,' ');
+  doReview();   // the text changed, so re-check it: findings, score and review id stay consistent
+}
+
+async function setFindingAction(idx,action,edited_text=''){
+  if(!cur.rid||cur.f[idx].local){cur.f[idx].status=action;if(edited_text)cur.f[idx].edited=edited_text;draw();return}
+  try{
+    const r=await api('/reviews/'+cur.rid+'/findings/'+idx+'/action','POST',{action,edited_text});
+    cur.f=r.findings;
+    say('Finding marked as '+action+'.');
+  }catch(e){say(e.message)}
+  draw();
+}
+
+function openEditFindingModal(idx){
+  const f=cur.f[idx];
+  modal={
+    title:'Edit suggestion',
+    html:`<p class="m"><strong>Original issue:</strong> ${esc(f.m)}</p>
+    <label>Your modified text / resolution:<textarea class="i" id="modal_edit_txt">${esc(f.edited||f.sug||f.quote)}</textarea></label><br><br>
+    <button class="b" onclick="submitEditFinding(${idx})">Save edit</button> <button class="s" onclick="closeModal()">Cancel</button>`
+  };
+  draw();
+}
+
+function submitEditFinding(idx){
+  const txt=V('modal_edit_txt');
+  closeModal();
+  setFindingAction(idx,'edited',txt);
+}
+
+async function runVisualCheck(input){
+  const file=input.files[0];if(!file)return;
+  const fd=new FormData();fd.append('file',file);
+  try{
+    const r=await api('/check/visual','POST',fd);
+    if(!cur.f)cur.f=[];
+    cur.f.push(...r.findings.map(x=>({...x,local:true})));   // image findings live only in this browser session
+    say('Image visual check completed.');
+  }catch(e){say(e.message)}
+  draw();
+}
+
+async function sendPost(){
+  const t=V('ct').trim();if(!t){say('Write or upload content first.');return draw()}
+  try{
+    const body={text:t};
+    if(cur.rid&&cur.reviewedText!==undefined&&String(cur.reviewedText).trim()===t)body.review_id=cur.rid;   // keep accept/reject/edit choices
+    await api('/posts','POST',body);
+    cur={text:'',f:null,rid:null};
+    say('Post submitted for review.');
+    await load();go('#/review');
+  }catch(e){say(e.message);draw()}
+}
+
+// ---------- REVIEW SCREEN ----------
+function review(m){
+  const canDecide=has(m,'review')||has(m,'approve');
+  const isMine=p=>String(p.by||'').toLowerCase()===String(ses||'').toLowerCase();
+  const mineP=S.posts.filter(isMine);
+  const wait=S.posts.filter(p=>!isMine(p)&&(p.status==='Waiting'||(p.status==='Recommended'&&has(m,'approve'))));
+  const chip=p=>`<span class="t ${p.status==='Approved'?'g':(p.status==='Waiting'||p.status==='Recommended')?'a':'x'}">${esc(p.status)}</span>`;
+  const row=(p,canAct)=>`<article class="review-post"><div class="review-post-main"><div class="review-post-title"><strong>${esc(p.text.slice(0,180))}${p.text.length>180?'…':''}</strong></div><div class="review-post-meta">Post #${p.id} · by @${esc(p.by)} (${esc(p.dept||'General')}) · ${p.issues} issue${p.issues===1?'':'s'} · ${chip(p)}${p.note?' · Note: '+esc(p.note):''}</div></div><div class="review-post-actions"><button class="s" onclick="viewHistory(${p.id})">History</button>${canAct?`${has(m,'approve')?`<button class="b" onclick="decide(${p.id},'Approved')">Approve</button>`:''}${has(m,'review')&&p.status==='Waiting'?`<button class="b" onclick="decide(${p.id},'Recommended')">Recommend</button>`:''}<button class="s" onclick="decide(${p.id},'Sent back')">Send back</button>`:''}${isMine(p)&&p.status==='Sent back'?`<button class="b" onclick="openReviseModal(${p.id})">Revise</button>`:''}${m.role===0||(isMine(p)&&p.status!=='Approved')?`<button class="s danger-btn" aria-label="Delete post ${p.id}" onclick="deletePost(${p.id},${ja(p.text.slice(0,90))})">Delete</button>`:''}</div></article>`;
+  return `<div class="check-title"><div><span class="dashboard-eyebrow">TEAM WORKFLOW</span><h2 style="font-size:33px;margin:6px 0">Review queue</h2><p class="m">Review posts submitted by other team members. You cannot approve your own work.</p></div><span class="t ${wait.length?'a':'g'}">${wait.length} awaiting action</span></div>${canDecide?`<section class="c" style="margin-top:16px"><div class="workspace-heading" style="margin-top:0"><h3>Waiting for your action</h3></div>${wait.length?wait.map(p=>row(p,1)).join(''):'<div class="result-empty" style="min-height:130px"><div><strong>You are all caught up</strong><p class="m" style="margin-top:6px">There are no other team submissions waiting for your review.</p></div></div>'}</section>`:''}<section class="c" style="margin-top:16px"><div class="workspace-heading" style="margin-top:0"><h3>My submissions</h3><span class="m" style="font-size:11px">${mineP.length} post${mineP.length===1?'':'s'}</span></div>${mineP.length?mineP.map(p=>row(p,0)).join(''):'<div class="result-empty" style="min-height:130px"><div><strong>No submissions yet</strong><p class="m" style="margin-top:6px">Posts you send for review will appear here.</p></div></div>'}</section>`;
+}
+
+
+function deletePost(id,preview){
+  if(!confirm('Permanently delete this post?\n\n'+preview+'\n\nIts review history/comments for this post will also be removed.'))return;
+  act(()=>api('/posts/'+id,'DELETE'),'Post deleted.');
+}
+
+function decide(id,st){
+  let n='';
+  if(st=='Sent back'){
+    n=prompt('Reason for sending back:')||'';
+    if(!n.trim()){say('A reason is required to send back content.');return draw()}
+  }
+  act(()=>api('/posts/'+id+'/decide','POST',{status:st,note:n}),'Post marked as '+st+'.');
+}
+
+async function viewHistory(pid){
+  try{
+    const h=await api('/posts/'+pid+'/history');
+    const p=S.posts.find(x=>x.id==pid);
+    modal={
+      title:`Post #${pid} History & Discussion`,
+      html:`<div class="c" style="background:#F7F4EE;margin-bottom:16px"><p style="white-space:pre-wrap;margin:0"><strong>Full Content:</strong>\n${esc(p?p.text:'')}</p></div>
+      <h3 style="font-size:20px;margin-bottom:12px">Timeline</h3>
+      ${h.map(ev=>`<div class="r"><span><strong>${esc(ev.action)}</strong> by @${esc(ev.actor)}<br>
+      ${ev.quote?`<span class="m" style="background:#F6EBD3;padding:2px 6px;border-radius:4px">“${esc(ev.quote)}”</span><br>`:''}
+      <span class="m">${esc(ev.note||'')}</span></span><span class="m" style="font-size:12px">${new Date(ev.at||ev.created_at).toLocaleString()}</span></div>`).join('')||'<p class="m">No events recorded.</p>'}
+      <hr style="border:0;border-top:1px solid #E4DFD3;margin:20px 0">
+      <h3 style="font-size:20px;margin-bottom:10px">Add a Comment on Quoted Text</h3>
+      <label>Quoted text from post:<input class="i" id="c_quote" placeholder="Copy the exact phrase from the post"></label><br><br>
+      <label>Your feedback / comment:<textarea class="i" id="c_txt" style="min-height:80px"></textarea></label><br><br>
+      <button class="b" onclick="submitComment(${pid})">Add comment</button> <button class="s" onclick="closeModal()">Close</button>`
+    };
+    draw();
+  }catch(e){say(e.message);draw()}
+}
+
+async function submitComment(pid){
+  const quote=V('c_quote').trim(),comment=V('c_txt').trim();
+  if(!quote||!comment){alert('Please provide both the quoted text and your comment.');return}
+  try{
+    await api('/posts/'+pid+'/comments','POST',{quote,comment});
+    say('Comment added.');
+    viewHistory(pid);
+  }catch(e){say(e.message)}
+}
+
+function openReviseModal(pid){
+  const p=S.posts.find(x=>x.id==pid);
+  modal={
+    title:'Revise and Resubmit Post #'+pid,
+    html:`<label>Updated content text:<textarea class="i" id="rev_text" style="min-height:160px">${esc(p?p.text:'')}</textarea></label><br><br>
+    <label>Revision note (what changed):<input class="i" id="rev_note" placeholder="e.g. Removed unapproved claim, fixed tone"></label><br><br>
+    <button class="b" onclick="submitRevise(${pid})">Resubmit for review</button> <button class="s" onclick="closeModal()">Cancel</button>`
+  };
+  draw();
+}
+
+async function submitRevise(pid){
+  const text=V('rev_text').trim(),note=V('rev_note').trim();
+  if(!text){alert('Please enter content.');return}
+  closeModal();
+  act(()=>api('/posts/'+pid+'/revise','POST',{text,note}),'Post revised and resubmitted.');
+}
+
+// ---------- FILE VAULT SCREEN ----------
+function files(m){
+  const fm=has(m,'files'),vis=S.folders.filter(d=>fm||d.access[m.u]);
+  const totalFiles=vis.reduce((n,d)=>n+(d.files||[]).length,0);
+  const folderCards=vis.map(d=>{
+    const lv=fm?'Folder manager':(d.access[m.u]||'View');
+    const ed=fm||['Edit','Approve'].includes(d.access[m.u]);
+    const searchText=esc([d.name,...(d.files||[]).map(x=>x.n)].join(' ').toLowerCase());
+    const fileRows=(d.files||[]).map(x=>{
+      const ext=(x.n.split('.').pop()||'FILE').slice(0,5).toUpperCase();
+      return `<div class="vault-file-row">
+        <span class="vault-file-icon">${iconSvg('file')}</span>
+        <span class="vault-file-main"><strong>${esc(x.n)}</strong><small>Version ${x.v} · uploaded by @${esc(x.by||'unknown')}</small></span>
+        <span class="vault-file-actions"><button class="s vault-action" onclick="dl(${x.id})" aria-label="Open ${esc(x.n)}">Open</button><button class="s vault-action" onclick="viewVersions(${d.id},${ja(x.n)})">Versions</button></span>
+      </div>`;
+    }).join('');
+    const managerPanel=fm?`<details class="vault-access"><summary>Folder permissions</summary><div class="vault-access-body"><label class="vault-duration">New access duration <select class="s" id="acd_${d.id}"><option value="0">Until removed</option><option value="7">7 days</option><option value="30">30 days</option></select></label>
+      ${S.users.filter(u=>u.role>0).map(u=>`<div class="vault-permission-row"><span><strong>${esc(u.n)}</strong><small>@${esc(u.u)}${d.access_exp&&d.access_exp[u.u]?' · expires '+new Date(d.access_exp[u.u]).toLocaleDateString():''}</small></span><select class="s" aria-label="Access for ${esc(u.n)}" onchange="setAcc(${d.id},${ja(u.u)},this.value)">${LV.map(l=>`<option ${((d.access[u.u]||'None')==l)?'selected':''}>${l}</option>`).join('')}</select></div>`).join('')||'<p class="m">Add team members in Team authority first.</p>'}</div></details>`:'';
+    return `<article class="vault-folder" data-search="${searchText}">
+      <div class="vault-folder-head"><span class="vault-folder-icon">${iconSvg('files')}</span><div class="vault-folder-title"><h3>${esc(d.name)}</h3><small>${d.files.length} file${d.files.length===1?'':'s'} · ${esc(lv)}</small></div><span class="vault-privacy ${d.confidential===false?'is-shared':'is-private'}">${d.confidential===false?'Standard':'Confidential'}</span></div>
+      <div class="vault-file-list">${fileRows||`<div class="vault-empty-inline">This folder is empty. ${ed?'Upload the first file below.':'Ask a folder manager for edit access to add files.'}</div>`}</div>
+      ${ed?`<div class="vault-upload"><label class="vault-upload-label" for="vault_upload_${d.id}"><span class="vault-upload-plus">+</span><span><strong>Add or replace a file</strong><small>Choose a file from your computer. New uploads create a version.</small></span></label><input class="vault-file-input" id="vault_upload_${d.id}" type="file" onchange="addFile(${d.id},this)"></div>`:''}
+      ${managerPanel}
+    </article>`;
+  }).join('');
+  return `<section class="vault-page">
+    <div class="vault-page-head"><div><span class="dashboard-eyebrow">FILE MANAGEMENT</span><h2>File vault</h2><p class="m">Find approved references, upload updated documents and open earlier versions.</p></div><div class="vault-summary"><strong>${vis.length}</strong><span>folders</span><i></i><strong>${totalFiles}</strong><span>files</span></div></div>
+    <div class="vault-toolbar"><label class="vault-search"><span>${iconSvg('insights')}</span><input id="vaultSearch" type="search" placeholder="Search folders and files…" oninput="filterVault(this.value)"></label><span class="vault-access-hint">Folder visibility follows your assigned permissions.</span></div>
+    ${fm?`<section class="vault-create"><div><strong>Create a folder</strong><p class="m">Organise documents by project, product or team.</p></div><div class="vault-create-fields"><input class="i" id="nf" maxlength="80" placeholder="Folder name"><select class="i" id="folderVisibility" aria-label="Folder visibility"><option value="true">Confidential folder</option><option value="false">Standard folder</option></select><button class="b" onclick="addFolder()">Create folder</button></div></section>`:''}
+    <div class="vault-folder-grid" id="vaultFolderGrid">${folderCards||`<div class="vault-empty"><span class="vault-empty-mark">${iconSvg('files')}</span><strong>No folders available yet</strong><p>Create a folder or ask a folder manager to share one with you.</p></div>`}</div>
+    <p id="vaultNoResults" class="vault-empty" hidden>No folders or files match that search.</p>
+  </section>`;
+}
+
+function filterVault(query){
+  const q=String(query||'').trim().toLowerCase();let shown=0;
+  document.querySelectorAll('.vault-folder').forEach(card=>{const match=!q||card.dataset.search.includes(q);card.hidden=!match;if(match)shown++});
+  const empty=$('#vaultNoResults');if(empty)empty.hidden=shown>0;
+}
+
+function addFolder(){const n=V('nf').trim();if(!n){say('Enter a folder name first.');return draw()}act(()=>api('/folders','POST',{name:n,confidential:V('folderVisibility')!=='false'}),'Folder created.')}
+function addFile(id,i){const f=i.files[0];if(!f)return;const fd=new FormData();fd.append('file',f);act(()=>api('/folders/'+id+'/files','POST',fd),'File added.')}
+function setAcc(id,u,v){act(()=>api('/folders/'+id+'/access','PUT',{username:u,level:v,days:+V('acd_'+id)||0}),'Access updated.')}
+async function dl(id){try{const r=await api('/files/'+id+'/url');window.open(r.url,'_blank','noopener')}catch(e){say(e.message);draw()}}
+
+async function viewVersions(fid,name){
+  try{
+    const vers=await api('/files/'+fid+'/versions?name='+encodeURIComponent(name));
+    modal={
+      title:`Version History: ${name}`,
+      html:`<div class="c">${vers.map(v=>`<div class="r">
+        <span><strong>v${v.version}</strong> · ${(v.size/1024).toFixed(1)} KB · uploaded by @${esc(v.by)}<br><span class="m">${new Date(v.created_at).toLocaleString()}</span></span>
+        <span><button class="s" onclick="restoreVersion(${v.id})">Restore as active</button></span>
+      </div>`).join('')}</div><br><button class="s" onclick="closeModal()">Close</button>`
+    };
+    draw();
+  }catch(e){say(e.message);draw()}
+}
+
+async function restoreVersion(fileId){
+  closeModal();
+  act(()=>api('/files/'+fileId+'/restore','POST'),'Older version restored as latest active.');
+}
+
+// ---------- CUSTOMER VOICE SCREEN ----------
+function voice(m){
+  const G=S.fb_gap||[],cnt={};
+  S.fb.forEach(f=>{
+    const words=['slow','late','delay','refund','rude','broken','bug','expensive'];
+    words.forEach(w=>{if(f.t.toLowerCase().includes(w))cnt[w]=(cnt[w]||0)+1});
+  });
+  const top=Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0];
+
+  return `<h2 style="font-size:34px">Voice of Customer</h2>
+  <p class="m">Connecting customer perception with internal brand targets. Emails, phone numbers and common Indian ID patterns are masked before AI processing. ${S.fb.length} customer comments analyzed.</p>
+  <div class="c"><h3 style="font-size:22px">Perception Gap Analysis</h3><p class="m">Green = Brand Target. Gold = Customer Perception Score.</p>
+  <div id="gap_container"><p class="m">Loading gap metrics...</p></div></div>
+  ${top?`<div class="c"><span class="t a">Most-mentioned keyword</span> <strong>${esc(top[0])}</strong> <span class="m">(${top[1]} mentions; keyword count, not a complaint cluster)</span></div>`:''}
+  <div class="h"><div class="c"><h3 style="font-size:22px">Add customer feedback</h3><br>
+  <label>Channel / Source<select class="i" id="fs"><option>Website</option><option>Email</option><option>Google Play</option><option>Support Ticket</option></select></label><br><br>
+  <label>Customer comment<textarea class="i" id="ft" style="min-height:80px"></textarea></label><br><br>
+  <label>Rating (1 to 5)<input class="i" style="width:90px" type="number" min="1" max="5" value="3" id="fr"></label><br><br>
+  <button class="b" onclick="addFb()">Save comment</button></div>
+  <div class="c"><h3 style="font-size:22px">Import CSV batch</h3><p class="m">Headers: text/comment, rating, source, date. PII stripped automatically.</p><br>
+  <input type="file" accept=".csv" onchange="uploadCsv(this)" aria-label="Choose CSV file"><br><br>
+  <p class="m">Public customer feedback form is live at: <a href="#/feedback-form" target="_blank" rel="noopener" style="color:#1F3D36;font-weight:600">#/feedback-form</a></p>
+  </div></div>
+  <div class="c"><h3 style="font-size:22px">Automatic feedback sources</h3><p class="m">Live collection is read-only and needs server-side Gmail OAuth and Google Play service-account credentials. No mailbox messages are modified.</p><div id="connector_status">Checking connector configuration...</div><br>${m.role===0?'<button class="b" onclick="syncFeedbackSources()">Sync live connected sources</button>':'<p class="m">Only the CEO can run a live connector sync.</p>'} <button class="s" onclick="previewFeedbackCleaning()">Test PII masking & duplicate removal</button><div id="feedback_cleaning_preview"></div><hr style="border:0;border-top:1px solid #e5e2db;margin:18px 0"><div class="r"><strong>Demo inbox + Play Store feed</strong><span class="t a">SIMULATED DATA</span></div><p class="m">Use sample support emails and app reviews to demonstrate the workflow without connecting Google accounts. These records are synthetic, clearly tagged, and go through the same PII masking and duplicate-removal pipeline.</p><div id="demo_source_preview" style="margin:12px 0"><p class="m">Loading simulated inbox and review examples...</p></div>${m.role===0?'<button class="b" onclick="runDemoConnectorSync()">Run simulated Gmail + Play Store sync</button>':'<p class="m">Only the CEO can import the simulated sample records.</p>'}<p class="m"><strong>Demo workspace only:</strong> syncing saves synthetic rows in the same feedback table as real submissions. They will appear in complaint groups and are not automatically deleted.</p><div id="demo_connector_result" style="margin-top:12px"></div></div>
+  <div class="c"><h3 style="font-size:22px">Recurring complaint groups</h3><p class="m">Semantically similar complaints are grouped across channels. Trends compare the last 30 days with the preceding 30 days.</p><div id="complaint_groups">Loading complaint groups...</div><br>
+  <h4>Manual grouping evaluation</h4><p class="m">After manually assigning the same label to complaints that describe the same issue, enter a JSON object mapping complaint IDs to labels.</p>
+  <textarea class="i" id="manual_complaint_labels" placeholder='{"12":"payment_failure","15":"payment_failure","18":"delivery_delay"}'></textarea><br><br>
+  <button class="s" onclick="loadDemoComplaintLabels()">Load sample labels</button> <button class="s" onclick="evaluateComplaintGroups()">Evaluate grouping quality</button><div id="complaint_eval_result"></div></div>
+  <div class="c"><h3 style="font-size:22px">52-post fact verification benchmark</h3><p class="m">Load the labelled sample, then compare the approved-fact checker with the baseline. Results are specific to this curated fact-contradiction dataset.</p><div id="judge_facts_list">Loading approved facts...</div><br><button class="s" onclick="loadFactBenchmarkSample()">Load 52-post sample</button><textarea class="i" id="fact_benchmark_json" placeholder='{"posts": []}'></textarea><br><br><button class="b" onclick="runFactBenchmark()">Run fact benchmark</button><div id="fact_benchmark_result"></div></div>`;
+  setTimeout(()=>{loadComplaintIntelligence();loadJudgeFactTools()},0);
+}
+
+function loadVoiceGap(){
+  api('/voice').then(d=>{
+    const el=$('#gap_container');if(!el)return;
+    GAP=d.gap;
+    el.innerHTML=d.gap.map((x,i)=>`<div class="r" style="cursor:pointer" onclick="showGapReviews(${i})">
+      <strong style="min-width:110px">${esc(x.k)}</strong>
+      <span style="flex:1;min-width:200px;display:flex;flex-direction:column;gap:6px">
+        <span class="bar"><i style="width:${(x.tg||8)*10}%;background:#1F3D36"></i></span>
+        <span class="bar"><i style="width:${x.sc==null?0:x.sc*10}%;background:#B08A4A"></i></span>
+      </span>
+      ${x.sc==null?'<span class="t a">No data</span>':`<span class="t ${x.g>=3?'x':x.g>=1.5?'a':'g'}">${x.g>=3?'High gap':x.g>=1.5?'Moderate':'Aligned'} (${x.n} reviews)</span>`}
+    </div>`).join('');
+  }).catch(()=>{});
+}
+
+function showGapReviews(i){
+  const g=GAP[i]||{k:'',reviews:[]},attribute=g.k,reviews=g.reviews;
+  modal={
+    title:`Reviews for Attribute: ${attribute}`,
+    html:`<div class="c">${reviews&&reviews.length?reviews.map(r=>`<div class="r"><p style="margin:0">“${esc(r)}”</p></div>`).join(''):'<p class="m">No specific quotes available.</p>'}</div><br><button class="s" onclick="closeModal()">Close</button>`
+  };
+  draw();
+}
+
+function addFb(){const t=V('ft').trim();if(t)act(()=>api('/feedback','POST',{source:V('fs'),text:t,rating:+V('fr')||3}),'Comment added.')}
+function uploadCsv(i){
+  const f=i.files[0];if(!f)return;
+  const fd=new FormData();fd.append('file',f);
+  act(async()=>{const r=await api('/feedback/csv','POST',fd);say('Imported '+r.imported+' comments; skipped '+(r.duplicates||0)+' duplicates and masked '+(r.pii_redactions||0)+' personal details'+(r.skipped?' ('+r.skipped+' empty rows skipped)':'')+'.')},null);
+}
+
+function loadComplaintIntelligence(){
+  api('/complaints/clusters').then(d=>{const el=$('#complaint_groups');if(!el)return;el.innerHTML=(d.groups||[]).map(g=>`<div class="c" style="margin:12px 0;padding:16px"><div class="r"><strong>${esc(g.label)}</strong><span class="t a">${g.count} complaints</span></div><p class="m">Sources: ${Object.entries(g.sources||{}).map(([k,v])=>esc(k)+': '+v).join(' · ')}</p><p class="m">Trend: <strong>${esc(g.trend.direction)}</strong> (${g.trend.recent_30d} recent vs ${g.trend.previous_30d} previous 30 days; ${g.trend.change_percent>=0?'+':''}${g.trend.change_percent}%)</p><p class="m">Complaint IDs: ${(g.complaint_ids||[]).join(', ')}</p>${(g.examples||[]).map(x=>`<blockquote style="margin:8px 0;padding-left:12px;border-left:3px solid #B08A4A">${esc(x)}</blockquote>`).join('')}</div>`).join('')||'<p class="m">No complaints available to group yet.</p>'}).catch(e=>{const el=$('#complaint_groups');if(el)el.textContent=e.message});
+  api('/connectors/status').then(d=>{const el=$('#connector_status');if(!el)return;el.innerHTML=`<div class="r"><strong>Support mailbox (Gmail) — live</strong><span class="t ${d.gmail.configured?'g':'a'}">${d.gmail.configured?'Configured':'Not configured'}</span></div><div class="r"><strong>Google Play reviews — live</strong><span class="t ${d.google_play.configured?'g':'a'}">${d.google_play.configured?'Configured':'Not configured'}</span></div><div class="r"><strong>Simulated demo sources</strong><span class="t g">${d.demo.available?'Ready · synthetic':'Unavailable'}</span></div><p class="m">${esc(d.schedule_note)}</p>`}).catch(e=>{const el=$('#connector_status');if(el)el.textContent=e.message});
+  loadDemoConnectorPreview();
+}
+function loadDemoConnectorPreview(){
+  api('/connectors/demo-preview').then(d=>{
+    const el=$('#demo_source_preview');if(!el)return;
+    const gmail=(d.gmail||[]).map(x=>`<div class="r" style="display:block;padding:9px 0"><strong>${esc(x.subject)}</strong><p class="m" style="margin:4px 0 0">${esc(x.text)}</p></div>`).join('');
+    const play=(d.google_play||[]).map(x=>`<div class="r" style="display:block;padding:9px 0"><strong>${'★'.repeat(Math.max(1,Math.min(5,+x.rating||3)))}</strong><p class="m" style="margin:4px 0 0">${esc(x.text)}</p></div>`).join('');
+    el.innerHTML=`<div class="h"><div class="c"><div class="r"><strong>Gmail-style inbox</strong><span class="t a">DEMO</span></div>${gmail||'<p class="m">No sample emails.</p>'}</div><div class="c"><div class="r"><strong>Play Store-style reviews</strong><span class="t a">DEMO</span></div>${play||'<p class="m">No sample reviews.</p>'}</div></div><p class="m">${esc(d.notice)}</p>`;
+  }).catch(e=>{const el=$('#demo_source_preview');if(el)el.textContent=e.message;});
+}
+function syncFeedbackSources(){act(async()=>{const r=await api('/connectors/sync','POST',{});say(`Live sync complete: ${r.imported} imported, ${r.duplicates} duplicates skipped, ${r.pii_redactions} PII items masked.`)},null)}
+async function runDemoConnectorSync(){
+  const el=$('#demo_connector_result');if(el)el.textContent='Importing synthetic sample messages and reviews...';
+  try{
+    const r=await api('/connectors/demo-sync','POST',{});
+    if(el)el.innerHTML=`<div class="t a">SIMULATED DATA ONLY</div><p><strong>${r.imported} imported</strong> · ${r.duplicates} duplicates skipped · ${r.pii_redactions} personal details masked</p><p class="m">Sample records offered: ${Object.entries(r.offered||{}).map(([k,v])=>esc(k)+': '+v).join(' · ')}. Re-running the demo is safe: existing sample records are deduplicated.</p><p class="m">${esc(r.notice)}</p>`;
+    await load();
+    say(`Demo sync complete: ${r.imported} synthetic records imported, ${r.duplicates} duplicates skipped, ${r.pii_redactions} personal details masked.`);
+    draw();
+  }catch(e){if(el)el.textContent=e.message;}
+}
+async function previewFeedbackCleaning(){
+  const el=$('#feedback_cleaning_preview');if(el)el.textContent='Running sample cleaning preview...';
+  try{const r=await api('/feedback/demo-cleaning-preview');if(el)el.innerHTML=`<p class="m">${r.input_rows} sample rows → ${r.accepted_rows} accepted · ${r.duplicates_removed} duplicate removed · ${r.pii_items_masked} personal details masked · persisted: no</p>${(r.preview||[]).map(x=>`<blockquote style="margin:8px 0;padding-left:12px;border-left:3px solid #B08A4A"><strong>${esc(x.source)}</strong><br>${esc(x.text)}<br><span class="m">${x.pii_redactions} PII item(s) masked</span></blockquote>`).join('')}`}
+  catch(e){if(el)el.textContent=e.message;}
+}
+async function loadDemoComplaintLabels(){
+  const el=$('#complaint_eval_result');try{const r=await api('/complaints/demo-labels');const input=$('#manual_complaint_labels');if(input)input.value=JSON.stringify(r.labels,null,2);if(el)el.textContent=`Loaded ${r.labelled_complaints} sample complaints with hand-assigned labels.`}
+  catch(e){if(el)el.textContent=e.message;}
+}
+async function loadJudgeFactTools(){
+  const el=$('#judge_facts_list');if(!el)return;try{const facts=await api('/facts');el.innerHTML=facts.map(f=>`<div class="r"><strong>${esc(f.name)}: ${esc(f.value)}</strong><span class="m">${esc(f.source_title||'Approved fact')}</span></div>`).join('')||'<p class="m">No approved facts are configured yet.</p>'}
+  catch(e){el.textContent=e.message;}
+}
+async function loadFactBenchmarkSample(){
+  const el=$('#fact_benchmark_result');try{const sample=await api('/facts/demo-benchmark');const input=$('#fact_benchmark_json');if(input)input.value=JSON.stringify({posts:sample.posts},null,2);if(el)el.textContent=`Loaded ${sample.posts_count} labelled posts (${sample.ground_truth_wrong_fact_posts} fact-contradiction labels, ${sample.ground_truth_correct_posts} negatives for this fact-only label). ${sample.dataset_type}`}
+  catch(e){if(el)el.textContent=e.message;}
+}
+function evaluateComplaintGroups(){
+  let labels;try{labels=JSON.parse(V('manual_complaint_labels')||'{}')}catch(e){say('Enter valid JSON mapping complaint IDs to manual group labels.');return draw()}
+  const el=$('#complaint_eval_result');if(el)el.textContent='Evaluating labelled complaints...';
+  api('/complaints/evaluate','POST',{labels}).then(r=>{const target=$('#complaint_eval_result');if(target)target.innerHTML=`<p><strong>Pairwise F1: ${(r.f1*100).toFixed(1)}%</strong> · Precision ${(r.precision*100).toFixed(1)}% · Recall ${(r.recall*100).toFixed(1)}% · ${r.labelled_complaints} labelled complaints</p>`}).catch(e=>{const target=$('#complaint_eval_result');if(target)target.textContent=e.message});
+}
+
+// ---------- AUDIT LOG SCREEN ----------
+function auditScreen(m){
+  api('/audit-log').then(rows=>{
+    const el=$('#audit_table');if(!el)return;
+    el.innerHTML=rows.map(r=>`<div class="r">
+      <div><strong>${esc(r.action)}</strong> by <span class="m">${esc(r.actor)}</span><br><span class="m">${esc(r.detail||'')}</span></div>
+      <span class="m" style="font-size:12px">${new Date(r.at||r.created_at).toLocaleString()}</span>
+    </div>`).join('')||'<p class="m">No audit logs recorded yet.</p>';
+  }).catch(e=>{const el=$('#audit_table');if(el)el.textContent=e.message});
+
+  return `<h2 style="font-size:34px">Audit log</h2>
+  <p class="m">Immutable chronological record of logins, authority delegations, revocations, file opens, and sign-offs.</p>
+  <div class="c"><div id="audit_table"><p class="m">Loading audit log...</p></div></div>`;
+}
+
+// ---------- INSIGHTS SCREEN ----------
+function insights(m){
+  api('/insights').then(d=>{
+    const el=$('#ins');if(!el)return;
+    const bar=(rows,c)=>{
+      if(!rows||!rows.length)return '<p class="m" style="margin-top:10px">No data recorded.</p>';
+      const mx=Math.max(1,...rows.map(x=>x[1]));
+      return rows.map(x=>`<div class="r"><span style="min-width:170px">${esc(x[0])}</span><span style="flex:1;min-width:160px" class="bar"><i style="width:${x[1]/mx*100}%;background:${c}"></i></span><strong>${x[1]}</strong></div>`).join('');
+    };
+    el.innerHTML=`
+    <div class="h">
+      <div class="c"><h3 style="font-size:22px">Posts by status</h3>${bar(Object.entries(d.by_status||{}),'#1F3D36')}</div>
+      <div class="c"><h3 style="font-size:22px">Common violations by type</h3>${bar(d.violations||[],'#B08A4A')}</div>
+    </div>
+    <div class="h">
+      <div class="c"><h3 style="font-size:22px">Violations by department</h3>${bar(d.by_department||[],'#1F3D36')}</div>
+      <div class="c"><h3 style="font-size:22px">Violations by author</h3>${bar(d.by_person||[],'#6B6A63')}</div>
+    </div>
+    <div class="c"><h3 style="font-size:22px">AI suggestions accept rate</h3>
+      <p class="m">Creators accepted ${d.actions.accepted} suggestions, rejected ${d.actions.rejected}, and edited ${d.actions.edited}.</p>
+      <div style="display:flex;align-items:center;gap:14px;margin-top:10px">
+        <span class="t g" style="font-size:18px">${d.actions.accept_rate}% Acceptance</span>
+      </div>
+    </div>
+    <div class="c"><h3 style="font-size:22px">Most-triggered guidelines & rules</h3>${bar(d.top_rules||[],'#8A2F2F')}</div>
+    ${d.feedback!=null?`<div class="h"><div class="c"><h3 style="font-size:22px">Customer sentiment</h3>${bar(Object.entries(d.sentiment||{}),'#1F3D36')}</div>
+    <div class="c"><h3 style="font-size:22px">Top complaint topics</h3>${bar(d.complaint_topics||[],'#8A2F2F')}</div></div>
+    <div class="c"><h3 style="font-size:22px">Customer satisfaction rating trend</h3>
+      ${(d.trend||[]).map(t=>`<div class="r"><span>${esc(t[0])}</span><span class="m">${t[1]} / 5 from ${t[2]} comment${t[2]==1?'':'s'}</span></div>`).join('')||'<p class="m">No trend data yet.</p>'}
+    </div>`:''}`;
+  }).catch(e=>{const el=$('#ins');if(el)el.textContent=e.message});
+
+  return `<h2 style="font-size:34px">Governance insights</h2><div id="ins"><p class="m">Loading analytics...</p></div>`;
+}
+
+// ---------- DISCLOSURE SCREEN ----------
+function disclosureScreen(){
+  return `<div class="top"><strong style="font-family:Georgia,serif;font-size:21px;color:#1F3D36;margin-right:12px;letter-spacing:1px">ECHO</strong><span class="sp"></span><a class="s" href="#/dash">Back to App</a></div>
+  <div class="w"><h2 style="font-size:34px">AI & External Service Disclosure</h2>
+  <p class="m">Full transparency into external APIs, language models, data processing boundaries, and privacy protections.</p>
+  <div class="c"><h3 style="font-size:22px">Language Model & Provider</h3>
+  <div class="r"><strong>Current Provider:</strong> <span>${S.ai?esc(S.model):'Google Gemini / Anthropic Claude API'}</span></div>
+  <div class="r"><strong>Purpose:</strong> <span>Review content against brand sources, semantic chunk retrieval, and customer sentiment labeling.</span></div>
+  <div class="r"><strong>Human Control Guarantee:</strong> <span class="t g">AI only suggests. Nothing is auto-published or auto-approved.</span></div>
+  </div>
+  <div class="c"><h3 style="font-size:22px">External Infrastructure</h3>
+  <div class="r"><strong>Supabase:</strong> <span>Authentication (JWT), PostgreSQL Database with RLS on all tables, Private Storage with 2-minute signed URLs.</span></div>
+  <div class="r"><strong>Privacy Protection:</strong> <span>Client browser never connects to the database directly; all access is mediated by FastAPI backend with strict role checks.</span></div>
+  <div class="r"><strong>PII Masking:</strong> <span>Customer reviews have all email addresses and phone numbers masked before AI processing and database storage.</span></div>
+  </div></div>`;
+}
+
+// ---------- PUBLIC FEEDBACK FORM ----------
+function publicFeedbackForm(){
+  return `<div style="max-width:540px;margin:40px auto;padding:24px"><div class="c" style="display:flex;flex-direction:column;gap:16px">
+  <strong style="font-family:Georgia,serif;font-size:26px;color:#1F3D36">Share Your Experience</strong>
+  <p class="m">We value your honest feedback to improve our products and service.</p>
+  <label>Rating (1 to 5 stars)<select class="i" id="pf_r"><option value="5">5 - Excellent</option><option value="4">4 - Good</option><option value="3" selected>3 - Average</option><option value="2">2 - Poor</option><option value="1">1 - Terrible</option></select></label>
+  <label>Your feedback<textarea class="i" id="pf_t" style="min-height:120px" placeholder="Tell us what went well or what we can do better..."></textarea></label>
+  <p class="err" id="pf_e" role="alert"></p>
+  <button class="b" onclick="submitPublicFeedback()">Submit feedback</button>
+  <a href="#/home" style="color:#6B6A63;font-size:14px;text-align:center">Back to home</a>
+  </div></div>`;
+}
+
+async function submitPublicFeedback(){
+  const t=V('pf_t').trim(),r=+V('pf_r')||3,e=$('#pf_e');
+  if(!t){e.textContent='Please enter your comment.';return}
+  try{
+    await api('/public/feedback','POST',{text:t,rating:r,source:'Public Website Form'});
+    alert('Thank you! Your feedback has been received.');
+    go('#/home');
+  }catch(x){e.textContent=x.message;}
+}
+
+function renderModal(){
+  if(!modal)return '';
+  return `<div class="modal-bg" onclick="if(event.target===this)closeModal()"><div class="modal-box">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><h2 style="font-size:24px">${esc(modal.title)}</h2><button class="s" style="min-height:32px;padding:4px 10px" onclick="closeModal()">✕</button></div>
+  ${modal.html}</div></div>`;
+}
+function closeModal(){modal=null;draw()}
+
+function draw(){
+  const r=(location.hash||'#/home').slice(2);
+  if(r=='feedback-form'){$('#app').innerHTML=publicFeedbackForm();return}
+  if(r=='disclosure'){$('#app').innerHTML=disclosureScreen();return}
+  if(r=='judges'){$('#app').innerHTML=judgesScreen();return}
+
+  const m=me(),pub=['home','login'];
+  if(!m&&!pub.includes(r))return go('#/login');
+  if(m&&r=='login')return go('#/dash');
+  if(!m){$('#app').innerHTML=r=='login'?loginScreen():homeScreen();return}
+
+  const P={dash,check,review,files,voice,team,rules,audit:auditScreen,insights,disclosure:disclosureScreen};
+  const okp={voice:has(m,'voice'),team:has(m,'authority'),rules:m.role==0,audit:m.role<=1};
+  let k=P[r]?r:'dash';
+  if(k in okp&&!okp[k]){say('You do not have permission for that section.');k='dash'}
+
+  $('#app').innerHTML=shell(k,m,P[k](m));
+  if(k=='voice')loadVoiceGap();
+  toast='';
+}
+
+async function boot(){
+  initTheme();
+  try{const h=await (await fetch('/health')).json();demoLoginAvailable=!!h.demo_login}catch(e){}
+  if(tok){try{await load()}catch(e){endSession()}}
+  draw();
+}
+
+window.onhashchange=draw;
+boot();
+</script></body></html>

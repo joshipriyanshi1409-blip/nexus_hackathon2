@@ -1,0 +1,4 @@
+-- Schema is maintained as ordered, idempotent migrations in backend/migrations/.
+-- Apply with: python -m backend.migrate (requires SUPABASE_DB_URL in .env).
+-- Current migrations: 001_initial_schema.sql through 005_demo_metadata.sql.
+-- Do not manually replace a live database schema with a stale schema dump.
